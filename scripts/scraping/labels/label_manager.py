@@ -1,7 +1,7 @@
 from scripts.scraping.labels.request_web_labels import *
 from scripts.scraping.labels.request_sun_values import *
 
-LABELS = ['date', 'time', 'latitude', 'longitude'] + WEB_LABELS + ['sun_direction', 'sun_altitude']
+LABEL_NAMES = ['date', 'time', 'latitude', 'longitude'] + WEB_LABELS_NAMES + ['sun_direction', 'sun_altitude']
 
 
 def get_labels(dt, region, latitude, longitude, dt_format=None):
@@ -16,3 +16,4 @@ def get_labels(dt, region, latitude, longitude, dt_format=None):
     labels += request_sun_values(latitude, longitude)
 
     return labels
+

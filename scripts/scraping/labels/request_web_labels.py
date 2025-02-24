@@ -1,4 +1,4 @@
-from scripts.scraping.labels.source_metadata import *
+from scripts.scraping.labels.web_label_source_metadata import *
 
 
 def request_web_labels(region, latitude, longitude):
@@ -7,10 +7,15 @@ def request_web_labels(region, latitude, longitude):
     url_page_text = get_url_page_text(url)
 
     labels = {}
-    for label, label_search_string in WEB_LABEL_SEARCH_STRING[website].items():
+    for label_name, label_search_string in WEB_LABEL_SEARCH_STRING[website].items():
         new_val = search_in_text(url_page_text, label_search_string)
         if new_val is not None:
-            new_val = round(float(new_val) * WEB_LABEL_MULTIPLIER[website][label], 2)
-        labels[label] = new_val
-
+            if label_name == 'tendency':
+                new_val = 1.0 if new_val == 'Rising' else -1.0 if new_val == 'Falling' else 0.0
+            elif label_name == 'condition':
+                new_val = 0.0
+            else:
+                multiplier = 1.0 if label_name not in WEB_LABEL_MULTIPLIER[website] else WEB_LABEL_MULTIPLIER[website][label_name]
+                new_val = round(float(new_val) * multiplier, 2)
+        labels[label_name] = new_val
     return labels
