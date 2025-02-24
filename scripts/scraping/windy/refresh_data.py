@@ -1,9 +1,15 @@
+from scripts.scraping.request_manager import *
 from scripts.scraping.windy.request_windy_webcams import *
-from scripts.scraping.windy.windy_request_manager import *
 from scripts.scraping.request_sun_values import *
 from scripts.localConfig import *
 
-windy_webcam_log = read_webcam_scrape_log(WINDY_LOG_FILE)
+WINDY_REQUEST_LOG_FIELDS = ["last_updated_on", "crop_left", "crop_top", "crop_right", "crop_bottom"]
+WINDY_REQUEST_LOG_DEFUALTS = {"last_updated_on": "2000-01-01T00:00:00.000Z"}  # Other field defaults 0 by default
+
+windy_request_log_manager = RequestLogManager(WINDY_REQUEST_LOG_FIELDS, 0,
+                                              WINDY_REQUEST_LOG_DEFUALTS, '<webcam_id>')
+
+windy_webcam_log = windy_request_log_manager.read_request_log(WINDY_LOG_FILE)
 
 for webcam_id in windy_webcam_log.keys():
     field_dict = windy_webcam_log[webcam_id]
@@ -22,4 +28,4 @@ for webcam_id in windy_webcam_log.keys():
 
     request_sun_data(latitude, longitude)
 
-write_webcam_scrape_log(WINDY_LOG_FILE, windy_webcam_log)
+write_request_log(WINDY_LOG_FILE, windy_webcam_log)

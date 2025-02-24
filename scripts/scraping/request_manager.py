@@ -2,9 +2,6 @@ import json
 import re
 from scripts.utils import *
 
-WEBCAM_SCRAPE_LOG_FIELDS = ["last_updated_on", "crop_left", "crop_top", "crop_right", "crop_bottom"]
-WEBCAM_SCRAPE_LOG_FIELD_DEFAULTS = {"last_updated_on": "2000-01-01T00:00:00.000Z"}  # Other field defaults 0 by default
-
 
 class RequestLogManager:
     def __init__(self, log_fields, default_value, field_default_override, empty_id_value):
@@ -65,9 +62,10 @@ class RequestLogManager:
 
         return request_log
 
-    def write_request_log(file, json_data):
-        with open(file, 'w') as f:
-            f.write('{\n' + ',\n'.join(
-                f'    "{key}": {json.dumps(value, separators=(",", ":"))}'
-                for key, value in json_data.items()
-            ) + '\n}')
+
+def write_request_log(file, json_data):
+    with open(file, 'w') as f:
+        f.write('{\n' + ',\n'.join(
+            f'    "{key}": {json.dumps(value, separators=(",", ":"))}'
+            for key, value in json_data.items()
+        ) + '\n}')
