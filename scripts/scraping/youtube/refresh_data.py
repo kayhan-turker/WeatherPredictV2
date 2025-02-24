@@ -1,6 +1,4 @@
-from scripts.scraping.request_manager import *
-from scripts.scraping.youtube.request_youtube_webcams import *
-from scripts.scraping.request_sun_values import *
+from scripts.scraping.request_log_manager import *
 from scripts.localConfig import *
 
 YOUTUBE_REQUEST_LOG_FIELDS = ["crop_left", "crop_top", "crop_right", "crop_bottom"]

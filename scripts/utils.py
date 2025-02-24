@@ -72,42 +72,52 @@ def search_in_text(text, search_pattern, group_num=1):
         print_log("ERROR", f"Search pattern {search_pattern} was not found!")
         return None
 
-    return match.group(group_num)
+    return match.group(group_num) if match and group_num <= match.lastindex else None
 
 
 # ================================
 #  DATETIME FUNCTIONS
 # ================================
 
-def determine_datetime_format(datetime_str):
+def get_datetime_format(in_str):
     for fmt in COMMON_DATETIME_FORMATS:
         try:
-            datetime.strptime(datetime_str, fmt)
+            datetime.strptime(in_str, fmt)
             return fmt
         except ValueError:
             continue
     return None
 
 
-def convert_datetime_string(input_str, final_format):
-    current_format = determine_datetime_format(input_str)
+def convert_datetime_string(in_str, final_format):
+    current_format = get_datetime_format(in_str)
     if current_format is None:
-        print_log("ERROR", f"Unable to parse the input datetime string: {input_str}")
-        return input_str
+        print_log("ERROR", f"Unable to parse the input datetime string: {in_str}")
+        return in_str
 
-    input_dt = datetime.strptime(input_str, current_format)
+    input_dt = datetime.strptime(in_str, current_format)
     return input_dt.strftime(final_format)
 
 
-def string_date_is_greater_than(date_0, date_1, dt_format=None):
-    dt_0 = datetime.strptime(date_0, dt_format if dt_format is not None else determine_datetime_format(date_0))
-    dt_1 = datetime.strptime(date_1, dt_format if dt_format is not None else determine_datetime_format(date_1))
+def string_date_is_greater_than(date_str_0, date_str_1, dt_format=None):
+    dt_0 = datetime.strptime(date_str_0, dt_format if dt_format is not None else get_datetime_format(date_str_0))
+    dt_1 = datetime.strptime(date_str_1, dt_format if dt_format is not None else get_datetime_format(date_str_1))
     return dt_0 > dt_1
 
 
-def datetime_to_milliseconds(input_dt, dt_format=None):
-    dt = datetime.strptime(input_dt, dt_format if dt_format is not None else determine_datetime_format(input_dt))
+def datetime_to_milliseconds(in_dt, dt_format=None):
+    dt = datetime.strptime(in_dt, dt_format if dt_format is not None else get_datetime_format(in_dt))
     return int(dt.timestamp() * 1000)
+
+
+def get_decimal_year(in_dt):
+    year_start = datetime(in_dt.year, 1, 1)
+    year_end = datetime(in_dt.year + 1, 1, 1)
+    return in_dt.year + (in_dt - year_start).total_seconds() / (year_end - year_start).total_seconds()
+
+
+def get_decimal_day(dt):
+    return (dt.hour + (dt.minute + dt.second / 60) / 60) / 24
 
 
 # ================================
