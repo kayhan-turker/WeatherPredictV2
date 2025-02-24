@@ -1,10 +1,10 @@
 import json
-import re
 from scripts.utils import *
 
 
 class RequestLogManager:
-    def __init__(self, log_fields, default_value, field_default_override, empty_id_value):
+    def __init__(self, log_file, log_fields, default_value, field_default_override, empty_id_value):
+        self.log_file = log_file
         self.log_fields = log_fields
         self.default_value = default_value
         self.field_default_override = field_default_override
@@ -19,9 +19,9 @@ class RequestLogManager:
     def return_empty_log_dict(self):
         return {self.empty_id_value: self.return_empty_field_dict()}
 
-    def read_request_log(self, file):
+    def read_request_log(self):
         try:
-            with open(file, 'r') as f:
+            with open(self.log_file, 'r') as f:
                 content = f.read().strip()
                 request_log = json.loads(content) if content else self.return_empty_log_dict()
         except (FileNotFoundError, json.JSONDecodeError):
@@ -62,10 +62,9 @@ class RequestLogManager:
 
         return request_log
 
-
-def write_request_log(file, json_data):
-    with open(file, 'w') as f:
-        f.write('{\n' + ',\n'.join(
-            f'    "{key}": {json.dumps(value, separators=(",", ":"))}'
-            for key, value in json_data.items()
-        ) + '\n}')
+    def write_request_log(self, json_data):
+        with open(self.log_file, 'w') as f:
+            f.write('{\n' + ',\n'.join(
+                f'    "{key}": {json.dumps(value, separators=(",", ":"))}'
+                for key, value in json_data.items()
+            ) + '\n}')
