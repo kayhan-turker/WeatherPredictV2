@@ -1,7 +1,7 @@
 import time
 import subprocess
 from scripts.scraping.request_log_manager import *
-from scripts.scraping.refresh_stream_url import *
+from scripts.scraping.save_video_screenshot import *
 from scripts.scraping.labels.label_manager import *
 from scripts.localConfig import *
 
@@ -13,6 +13,9 @@ youtube_request_log_manager = LogManager(YOUTUBE_LOG_FILE, YOUTUBE_REQUEST_LOG_F
                                          YOUTUBE_REQUEST_LOG_DEFAULTS, '<youtube_id>')
 youtube_webcam_log = youtube_request_log_manager.read_request_log()
 
+VIDEO_WIDTH = 960
+VIDEO_HEIGHT = 540
+
 stream_urls = {}
 last_url_refresh = time.time()
 stream_refresh_interval = 7200
@@ -22,7 +25,7 @@ data_refresh_interval = 10
 
 # Create directories
 for youtube_id in youtube_webcam_log.keys():
-    os.makedirs(YOUTUBE_IMAGE_SAVE_PATH + youtube_id + '/', exist_ok=True)
+    os.makedirs(STREAM_IMAGE_SAVE_PATH + youtube_id + '/', exist_ok=True)
 
 # Refresh Loop
 while True:
@@ -47,18 +50,13 @@ while True:
 
         # Get file name and path
         dt_now = datetime.now()
+        file_path = f"{STREAM_IMAGE_SAVE_PATH}{youtube_id}/"
         file_name = f"{datetime.strftime(dt_now, '%Y-%m-%d-%H-%M-%S')}"
-        file_path = f"{YOUTUBE_IMAGE_SAVE_PATH}{youtube_id}/"
-        output_image = f"{file_path + file_name}.jpg"
 
-        # Get screenshot of video
-        result = subprocess.run(
-            ["ffmpeg", "-y", "-i", stream_urls[youtube_id], "-frames:v", "1", "-vf", "scale=960:-1", "-q:v", "1", output_image],
-            capture_output=True, text=True)
-
-        # If failed, refresh stream url and continue
-        if result.returncode != 0:
-            print_log("ERROR", f"Video screenshot failed: {result.stderr}. Refreshing stream url for {youtube_id}")
+        result = save_video_screenshot(stream_urls[youtube_id], file_path, file_name, VIDEO_WIDTH, VIDEO_HEIGHT,
+                                       log_field_dict["crop_left"], log_field_dict["crop_top"],
+                                       log_field_dict["crop_right"], log_field_dict["crop_bottom"])
+        if result == 0:
             stream_urls[youtube_id] = get_stream_url(youtube_id)
             continue
 

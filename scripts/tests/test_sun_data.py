@@ -1,5 +1,5 @@
 from scripts.scraping.labels.label_manager import *
-from scripts.scraping.refresh_stream_url import *
+from scripts.scraping.save_video_screenshot import *
 
 TORONTO_COORDS = [43.655, -79.383]
 
