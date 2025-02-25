@@ -1,7 +1,7 @@
 import time
 import subprocess
 from scripts.scraping.request_log_manager import *
-from scripts.scraping.youtube.request_youtube_webcams import *
+from scripts.scraping.refresh_stream_url import *
 from scripts.scraping.labels.label_manager import *
 from scripts.localConfig import *
 
