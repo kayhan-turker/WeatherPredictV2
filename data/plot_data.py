@@ -4,11 +4,13 @@ from scripts.scraping.labels.collect_labels import *
 
 DATA_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'second'] + LABEL_NAMES
 
-x_data = 'temperature'
-y_data = 'pressure'
-r_data = 'latitude'
-g_data = 'longitude'
-b_data = 'elevation'
+print(DATA_FILE_FIELDS)
+
+x_data = 'sun_direction'
+y_data = 'sun_altitude'
+r_data = 'temperature'
+g_data = 'pressure'
+b_data = 'humidity'
 
 # Define the directory containing the txt files
 directory = LABEL_SAVE_PATH
@@ -28,7 +30,7 @@ r_max, r_min = None, None
 g_max, g_min = None, None
 b_max, b_min = None, None
 
-point_size = 1
+point_size = 0.5
 
 
 def is_valid_value(value):
@@ -78,12 +80,12 @@ for index in range(len(colors)):
 # Create the scatter plot
 plt.figure(facecolor='#222222')
 plt.gca().set_facecolor('#1a1a1a')
-plt.scatter(x_values, y_values, c=colors, s=point_size)
+plt.scatter(x_values, y_values, c=colors, s=point_size, alpha=0.2)
 
 # Add labels and title
 plt.xlabel(f'{x_data}')
 plt.ylabel(f'{y_data}')
-plt.title(f'{x_data} against {y_data}')
+plt.title(f'{x_data} (x-axis) against {y_data} (y-axis)\n(red: {r_data}, green {g_data}, blue {b_data})')
 
 # Show the plot
 plt.show()
