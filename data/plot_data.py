@@ -31,6 +31,7 @@ g_max, g_min = None, None
 b_max, b_min = None, None
 
 point_size = 0.5
+point_opacity = 0.4
 
 
 def is_valid_value(value):
@@ -80,7 +81,7 @@ for index in range(len(colors)):
 # Create the scatter plot
 plt.figure(facecolor='#222222')
 plt.gca().set_facecolor('#1a1a1a')
-plt.scatter(x_values, y_values, c=colors, s=point_size, alpha=0.2)
+plt.scatter(x_values, y_values, c=colors, s=point_size, alpha=point_opacity)
 
 # Add labels and title
 plt.xlabel(f'{x_data}')

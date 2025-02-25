@@ -27,6 +27,7 @@ while True:
         time.sleep(0.5)
         continue
     last_data_refresh = time.time()
+    print('=' * 200)
 
     # Check if stream url refresh is needed
     refresh_stream_urls = time.time() - last_url_refresh > stream_refresh_interval
