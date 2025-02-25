@@ -6,7 +6,7 @@ webcam_header = {'x-windy-api-key': 'Zfe8zSHc5XpTTQP9m9NHD7a1MxAGAwAP'}
 webcam_params = {'include': 'images,location'}
 
 
-def request_webcam_data(webcam_id):
+def request_windy_webcam_data(webcam_id):
     response_json = get_url_page_json(f"{WEBCAM_ENDPOINT}{webcam_id}", webcam_header, webcam_params)
     if response_json is None:
         return None, None, None, None

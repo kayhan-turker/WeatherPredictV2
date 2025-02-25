@@ -1,4 +1,4 @@
 {
-    "0000000000": {"crop_left":0,"crop_top":0,"crop_right":400,"crop_bottom":224},
-    "K5ZEJWCTSzQ": {"crop_left":0,"crop_top":0,"crop_right":400,"crop_bottom":224}
+    "K5ZEJWCTSzQ": {"region": "CANADA", "latitude": 43.26, "longitude": -79.06, "crop_left":0,"crop_top":0,"crop_right":0,"crop_bottom":0},
+    "TsgoxkRFit0": {"region": "UNITED STATES", "latitude": 40.75, "longitude": -73.98, "crop_left":0,"crop_top":0,"crop_right":0,"crop_bottom":0}
 }

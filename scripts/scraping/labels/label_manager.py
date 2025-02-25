@@ -11,7 +11,7 @@ def get_labels(dt, region, latitude, longitude, dt_format=None):
     date = round(get_decimal_year(dt) - dt.year, 2)
     time = round(get_decimal_day(dt), 2)
 
-    labels = [date, time, longitude, latitude]
+    labels = [date, time, latitude, longitude]
     labels += list(request_web_labels(region, latitude, longitude).values())
     labels += request_sun_values(latitude, longitude)
 

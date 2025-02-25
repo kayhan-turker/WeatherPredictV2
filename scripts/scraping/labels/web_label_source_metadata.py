@@ -28,9 +28,9 @@ WEB_LABEL_SEARCH_STRING = {
     },
     'forecast.weather.gov': {
         'temperature': r'\<p class="myforecast-current-sm"\>([0-9\-]+)&deg;C\</p\>',
-        'pressure': r'\<td\>[0-9\.]+ in \(([0-9\.]+) mb\)\</td\>',
+        'pressure': r'Barometer\</b\>\</td\> \<td\>([0-9\.]+) in\</td\>',
         'humidity': r'Humidity\</b\>\</td\> \<td\>([0-9\.]+)\%\<',
-        'wind': r'Wind Speed\</b\>\</td\> \<td\>[A-Z]+ ([0-9\.\-]+) mph</td>',
+        'wind': r'Wind Speed\</b\>\</td\> \<td\>[A-Za-z]+ ([0-9\.\-]+) mph</td>',
         'visibility': r'Visibility\</b\>\</td\> \<td\>([0-9\.]+) mi\<',
         'dewpoint': r'Dewpoint\</b\>\</td\> \<td\>[0-9\.\-]+&deg;F \(([0-9\-\.]+)&deg;C\)\<',
     }
@@ -40,7 +40,7 @@ WEB_LABEL_MULTIPLIER = {
     'weather.gc.ca': {
     },
     'forecast.weather.gov': {
-        'pressure': 0.1,
+        'pressure': 33.8637526,
     }
 }
 

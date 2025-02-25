@@ -31,7 +31,7 @@ COMMON_DATETIME_FORMATS = [
 def print_log(log_type, message):
     log_type = str.upper(log_type)
     log_color_code = LOG_COLORS[log_type] if log_type in LOG_COLORS else ""
-    print(f"{log_color_code}[{str.upper(log_type)}] {datetime.now()}: {message}{LOG_COLORS['END']}")
+    print(f"{log_color_code}[{str.upper(log_type)}] {datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')}: {message}{LOG_COLORS['END']}")
 
 
 def dict_to_json_list_string(field_vals):
@@ -69,7 +69,7 @@ def get_url_page_json(url, headers, params):
 def search_in_text(text, search_pattern, group_num=1):
     match = re.search(search_pattern, text)
     if not match:
-        print_log("ERROR", f"Search pattern {search_pattern} was not found!")
+        print_log("WARNING", f"Search pattern {search_pattern} was not found!")
         return None
 
     return match.group(group_num) if match and group_num <= match.lastindex else None

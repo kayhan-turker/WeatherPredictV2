@@ -18,5 +18,8 @@ def request_web_labels(region, latitude, longitude):
             else:
                 multiplier = 1.0 if label_name not in WEB_LABEL_MULTIPLIER[website] else WEB_LABEL_MULTIPLIER[website][label_name]
                 new_val = round(float(new_val) * multiplier, 2)
+        else:
+            print_log("WARNING", f"To validate missed {label_name}, see url:")
+            print(url)
         labels[label_name] = new_val
     return labels
