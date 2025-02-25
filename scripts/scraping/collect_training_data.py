@@ -1,18 +1,10 @@
 import time
-from scripts.metadata.metadata_manager import *
+from scripts.metadata.video_source_metadata import *
 from scripts.scraping.labels.request_video_still import *
 from scripts.scraping.labels.collect_labels import *
-from scripts.localConfig import *
 
 
 # Prepare logs
-YOUTUBE_REQUEST_LOG_FIELDS = ["region", "latitude", "longitude", "altitude",
-                              "crop_left", "crop_top", "crop_right", "crop_bottom"]
-YOUTUBE_REQUEST_LOG_DEFAULTS = {"region": "NA", "latitude": 0.0, "longitude": 0.0}
-youtube_request_log_manager = LogManager(SOURCE_METADATA_FILE, YOUTUBE_REQUEST_LOG_FIELDS, 0,
-                                         YOUTUBE_REQUEST_LOG_DEFAULTS, '<youtube_id>')
-youtube_webcam_log = youtube_request_log_manager.read_request_log()
-youtube_request_log_manager.write_request_log(youtube_webcam_log)
 
 VIDEO_WIDTH = 960
 VIDEO_HEIGHT = 540
@@ -25,7 +17,7 @@ last_data_refresh = 0
 data_refresh_interval = 60
 
 # Create directories
-for youtube_id in youtube_webcam_log.keys():
+for youtube_id in video_source_metadata.keys():
     os.makedirs(STREAM_IMAGE_SAVE_PATH + youtube_id + '/', exist_ok=True)
 
 # Refresh Loop
@@ -38,7 +30,7 @@ while True:
 
     # Check if stream url refresh is needed
     refresh_stream_urls = time.time() - last_url_refresh > stream_refresh_interval
-    for youtube_id, log_field_dict in youtube_webcam_log.items():
+    for youtube_id, log_field_dict in video_source_metadata.items():
 
         # Get stream urls if needed
         if refresh_stream_urls or youtube_id not in stream_urls:
@@ -63,7 +55,8 @@ while True:
             continue
 
         # Save labels
-        labels = collect_labels(dt_now, log_field_dict['region'], log_field_dict['latitude'], log_field_dict['longitude'])
+        labels = collect_labels(dt_now, log_field_dict['region'], log_field_dict['latitude'],
+                                log_field_dict['longitude'], log_field_dict['elevation'])
         label_output = f"{youtube_id};{datetime.strftime(dt_now, '%Y;%m;%d;%H;%M;%S')};{';'.join([str(label) for label in labels])}"
         with open(f"{LABEL_SAVE_PATH}{youtube_id}.txt", "a") as file:
             file.write(f"{label_output}\n")

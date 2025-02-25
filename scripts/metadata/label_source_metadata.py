@@ -40,8 +40,9 @@ WEB_LABEL_MULTIPLIER = {
     'weather.gc.ca': {
     },
     'forecast.weather.gov': {
-        'pressure': 33.86,
+        'pressure': 3.386,
         'wind': 1.61,
+        'visibility': 1.61,
     }
 }
 

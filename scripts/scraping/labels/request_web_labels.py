@@ -1,4 +1,4 @@
-from scripts.metadata.web_label_source_metadata import *
+from scripts.metadata.label_source_metadata import *
 
 
 def request_web_labels(region, latitude, longitude):
@@ -18,6 +18,8 @@ def request_web_labels(region, latitude, longitude):
             else:
                 multiplier = 1.0 if label_name not in WEB_LABEL_MULTIPLIER[website] else WEB_LABEL_MULTIPLIER[website][label_name]
                 new_val = round(float(new_val) * multiplier, 2)
+        elif label_name == 'wind' or label_name == 'visibility':
+            new_val = 0.0
         else:
             print_log("WARNING", f"To validate missed {label_name}, see url:")
             print(url)

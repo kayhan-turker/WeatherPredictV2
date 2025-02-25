@@ -2,7 +2,7 @@ import json
 from scripts.utils import *
 
 
-class LogManager:
+class MetadataManager:
     def __init__(self, log_file, log_fields, default_value, field_default_override, empty_id_value):
         self.log_file = log_file
         self.log_fields = log_fields
