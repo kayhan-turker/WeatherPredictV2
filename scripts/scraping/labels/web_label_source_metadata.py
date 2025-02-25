@@ -1,7 +1,7 @@
 from scripts.utils import *
 
 REGIONS = ['CANADA', 'UNITED STATES']
-WEB_LABELS_NAMES = ['temperature', 'pressure', 'humidity', 'wind', 'visibility', 'dew_point', 'condition', 'tendency']
+WEB_LABELS_NAMES = ['temperature', 'pressure', 'humidity', 'wind', 'visibility', 'dewpoint']
 
 REGION_WEBSITES = {
     'CANADA': 'weather.gc.ca',
@@ -22,13 +22,17 @@ WEB_LABEL_SEARCH_STRING = {
         'humidity': r'Humidity:\</dt\>\<dd data-v-7e10dc71\>([0-9\.]+)\<',
         'wind': r'Wind:\</dt\>\<dd data-v-7e10dc71\>\<abbr title="[a-zA-Z\-]+" data-v-7e10dc71\>[A-Z]+\</abbr\> ([0-9\.]+) \<',
         'visibility': r'Visibility:\</dt\>\<dd data-v-7e10dc71\> ([0-9\.]+) \<',
-        'dew_point': r'Dew point:\</dt\>\<dd data-v-7e10dc71\>\<span data-v-7e10dc71\>([0-9\.\-]+)°\<',
+        'dewpoint': r'Dew point:\</dt\>\<dd data-v-7e10dc71\>\<span data-v-7e10dc71\>([0-9\.\-]+)°\<',
         'condition': r'Condition:\</dt\>\<dd data-v-7e10dc71\>\<span data-v-7e10dc71\>([A-Za-z ]+)\<',
         'tendency': r'Tendency:\</dt\>\<dd data-v-7e10dc71\>([A-Za-z ]+)\<',
     },
     'forecast.weather.gov': {
         'temperature': r'\<p class="myforecast-current-sm"\>([0-9\-]+)&deg;C\</p\>',
         'pressure': r'\<td\>[0-9\.]+ in \(([0-9\.]+) mb\)\</td\>',
+        'humidity': r'Humidity\</b\>\</td\> \<td\>([0-9\.]+)\%\<',
+        'wind': r'Wind Speed\</b\>\</td\> \<td\>[A-Z]+ ([0-9\.\-]+) mph</td>',
+        'visibility': r'Visibility\</b\>\</td\> \<td\>([0-9\.]+) mi\<',
+        'dewpoint': r'Dewpoint\</b\>\</td\> \<td\>[0-9\.\-]+&deg;F \(([0-9\-\.]+)&deg;C\)\<',
     }
 }
 

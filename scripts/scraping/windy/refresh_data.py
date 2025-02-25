@@ -6,8 +6,8 @@ from scripts.localConfig import *
 WINDY_REQUEST_LOG_FIELDS = ["last_updated_on", "crop_left", "crop_top", "crop_right", "crop_bottom"]
 WINDY_REQUEST_LOG_DEFAULTS = {"last_updated_on": "2000-01-01T00:00:00.000Z"}  # Other field defaults 0 by default
 
-windy_request_log_manager = RequestLogManager(WINDY_LOG_FILE, WINDY_REQUEST_LOG_FIELDS, 0,
-                                              WINDY_REQUEST_LOG_DEFAULTS, '<webcam_id>')
+windy_request_log_manager = LogManager(WINDY_LOG_FILE, WINDY_REQUEST_LOG_FIELDS, 0,
+                                       WINDY_REQUEST_LOG_DEFAULTS, '<webcam_id>')
 
 windy_webcam_log = windy_request_log_manager.read_request_log()
 
