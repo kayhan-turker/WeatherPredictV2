@@ -4,7 +4,7 @@ from scripts.scraping.labels.request_sun_values import *
 LABEL_NAMES = ['date', 'time', 'latitude', 'longitude'] + WEB_LABELS_NAMES + ['sun_direction', 'sun_altitude']
 
 
-def get_labels(dt, region, latitude, longitude, dt_format=None):
+def collect_labels(dt, region, latitude, longitude, dt_format=None):
     if isinstance(dt, str):
         dt_format = dt_format if dt_format is not None else get_datetime_format(dt)
         dt = datetime.strptime(dt, dt_format)

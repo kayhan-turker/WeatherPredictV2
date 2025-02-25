@@ -1,7 +1,7 @@
 from scripts.utils import *
 
 REGIONS = ['CANADA', 'UNITED STATES']
-WEB_LABELS_NAMES = ['temperature', 'pressure', 'humidity', 'wind', 'visibility', 'dewpoint']
+WEB_LABELS_NAMES = ['temperature', 'pressure', 'humidity', 'wind', 'dewpoint']
 
 REGION_WEBSITES = {
     'CANADA': 'weather.gc.ca',
@@ -28,7 +28,7 @@ WEB_LABEL_SEARCH_STRING = {
     },
     'forecast.weather.gov': {
         'temperature': r'\<p class="myforecast-current-sm"\>([0-9\-]+)&deg;C\</p\>',
-        'pressure': r'Barometer\</b\>\</td\> \<td\>([0-9\.]+) in\</td\>',
+        'pressure': r'Barometer\</b\>\</td\> \<td\>([0-9\.]+) *in\ *',
         'humidity': r'Humidity\</b\>\</td\> \<td\>([0-9\.]+)\%\<',
         'wind': r'Wind Speed\</b\>\</td\> \<td\>[A-Za-z]+ ([0-9\.\-]+) [A-Za-z]+</td>',
         'visibility': r'Visibility\</b\>\</td\> \<td\>([0-9\.]+) mi\<',
