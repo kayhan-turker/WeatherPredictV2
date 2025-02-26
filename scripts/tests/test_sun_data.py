@@ -11,3 +11,8 @@ print(collect_labels(datetime.now(), 'CANADA', 42.293, -83.051))
 print(collect_labels(datetime.now(), 'UNITED STATES', 42.3329, -83.0478))
 
 print(get_stream_url("K5ZEJWCTSzQ"))
+
+print(collect_labels(datetime.now(), 'GLOBAL', 39.904, 32.60))
+
+print(collect_labels(datetime.now(), 'UNITED STATES', 47.6, -120.67))
+print(collect_labels(datetime.now(), 'GLOBAL', 47.6, -120.67))
