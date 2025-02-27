@@ -9,8 +9,8 @@ def collect_labels(dt, region, latitude, longitude, elevation=None, dt_format=No
     if isinstance(dt, str):
         dt_format = dt_format if dt_format is not None else get_datetime_format(dt)
         dt = datetime.strptime(dt, dt_format)
-    date = round(get_decimal_year(dt) - dt.year, 2)
-    time = round(get_decimal_day(dt), 2)
+    date = round(get_decimal_year(dt) - dt.year, 4)
+    time = round(get_decimal_day(dt), 4)
 
     elevation = elevation if elevation is not None else request_location_data(latitude, longitude)['elevation']
 

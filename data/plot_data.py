@@ -6,16 +6,26 @@ DATA_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'secon
 
 print(DATA_FILE_FIELDS)
 
-x_data = 'longitude'
-y_data = 'latitude'
-r_data = 'latitude'
-g_data = 'longitude'
-b_data = 'latitude'
+x_data = 'temperature'
+y_data = 'pressure'
+r_data = 'sun_altitude'
+g_data = 'date'
+b_data = 'sun_altitude'
 
-# Modes 1 = positive, 0 = cyclical, -1 = negative
-r_mode = 0
-g_mode = 1
-b_mode = 1
+mod_list = [
+    lambda x: x,                    # 0 positive
+    lambda x: 1 - x,                # 1 negative
+    lambda x: 1 - abs(2 * x - 1),   # 2 cyclical
+    lambda x: abs(2 * x - 1),       # 3 reverse cyclical
+    lambda x: 0.5 * (0.5 + x),      # 4 muted
+    lambda x: 0,                    # 5 zero
+    lambda x: 1,                    # 6 one
+    lambda x: 0.5                   # 7 half
+]
+
+r_mod = 0
+g_mod = 1
+b_mod = 2
 
 point_size = 0.1
 point_opacity = 0.1
@@ -85,9 +95,9 @@ for index in range(len(colors)):
 
     # Set the median to be the brightest if required (rather than maximum value)
     colors[index] = (
-        1 - abs(2 * colors[index][0] - 1) if r_mode == 0 else 1 - colors[index][0] if r_mode == -1 else colors[index][0],
-        1 - abs(2 * colors[index][1] - 1) if g_mode == 0 else 1 - colors[index][1] if g_mode == -1 else colors[index][1],
-        1 - abs(2 * colors[index][2] - 1) if b_mode == 0 else 1 - colors[index][2] if b_mode == -1 else colors[index][2]
+        mod_list[r_mod](colors[index][0]),
+        mod_list[g_mod](colors[index][1]),
+        mod_list[b_mod](colors[index][2]),
     )
 
 # Create the scatter plot

@@ -17,7 +17,7 @@ def request_web_labels(region, latitude, longitude):
                 new_val = 0.0
             else:
                 multiplier = 1.0 if label_name not in WEB_LABEL_MULTIPLIER[website] else WEB_LABEL_MULTIPLIER[website][label_name]
-                new_val = round(float(new_val) * multiplier, 2)
+                new_val = round(float(new_val) * multiplier, 3)
         elif label_name == 'wind' or label_name == 'visibility':
             new_val = 0.0
         else:
