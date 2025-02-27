@@ -6,11 +6,19 @@ DATA_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'secon
 
 print(DATA_FILE_FIELDS)
 
-x_data = 'temperature'
-y_data = 'pressure'
-r_data = 'time'
-g_data = 'time'
-b_data = 'time'
+x_data = 'longitude'
+y_data = 'latitude'
+r_data = 'latitude'
+g_data = 'longitude'
+b_data = 'latitude'
+
+# Modes 1 = positive, 0 = cyclical, -1 = negative
+r_mode = 0
+g_mode = 1
+b_mode = 1
+
+point_size = 0.1
+point_opacity = 0.1
 
 # Define the directory containing the txt files
 directory = LABEL_SAVE_PATH
@@ -29,12 +37,6 @@ colors = []
 r_max, r_min = None, None
 g_max, g_min = None, None
 b_max, b_min = None, None
-r_cyclical = True
-g_cyclical = True
-b_cyclical = True
-
-point_size = 0.5
-point_opacity = 0.1
 
 
 def is_valid_value(value):
@@ -83,9 +85,9 @@ for index in range(len(colors)):
 
     # Set the median to be the brightest if required (rather than maximum value)
     colors[index] = (
-        1 - abs(2 * colors[index][0] - 1) if r_cyclical else colors[index][0],
-        1 - abs(2 * colors[index][1] - 1) if g_cyclical else colors[index][1],
-        1 - abs(2 * colors[index][2] - 1) if b_cyclical else colors[index][2]
+        1 - abs(2 * colors[index][0] - 1) if r_mode == 0 else 1 - colors[index][0] if r_mode == -1 else colors[index][0],
+        1 - abs(2 * colors[index][1] - 1) if g_mode == 0 else 1 - colors[index][1] if g_mode == -1 else colors[index][1],
+        1 - abs(2 * colors[index][2] - 1) if b_mode == 0 else 1 - colors[index][2] if b_mode == -1 else colors[index][2]
     )
 
 # Create the scatter plot
