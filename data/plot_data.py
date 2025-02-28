@@ -7,14 +7,18 @@ DATA_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'secon
 
 print(DATA_FILE_FIELDS)
 
-x_data = 'temperature'
-y_data = 'pressure'
-r_data = 'longitude'
-g_data = 'latitude'
-b_data = 'longitude'
-r_mod = 0
-g_mod = 0
-b_mod = 1
+preset = 7
+preset_metadata = [
+    # X-AXIS, Y-AXIS, R-AXIS, G-AXIS, B-AXIS, r-mod, g-mod, b-mod, p-size, p-alph, p-blur
+    ['longitude', 'latitude', 'longitude', 'longitude', 'latitude',             0, 1, 0,    0.1, 0.1, 0.0],     # 0. LOCATION MAP
+    ['temperature', 'pressure', 'longitude', 'longitude', 'latitude',           0, 1, 0,    0.1, 0.05, 0.001],  # 1. T P LOCATION
+    ['temperature', 'humidity', 'longitude', 'longitude', 'latitude',           0, 1, 0,    0.1, 0.05, 0.001],  # 2. T H LOCATION
+    ['temperature', 'pressure', 'sun_altitude', 'sun_altitude', 'date',         0, 0, 1,    0.1, 0.05, 0.001],  # 3. T P DATETIME
+    ['temperature', 'humidity', 'sun_altitude', 'sun_altitude', 'date',         0, 0, 1,    0.1, 0.05, 0.001],  # 4. T H DATETIME
+    ['temperature', 'pressure', 'latitude', 'date', 'sun_altitude',             2, 0, 0,    0.1, 0.05, 0.001],  # 5. T P DTLOC
+    ['temperature', 'humidity', 'latitude', 'date', 'sun_altitude',             2, 0, 0,    0.1, 0.05, 0.001],  # 6. T H DTLOC
+    ['temperature', 'pressure', 'sun_direction', 'sun_altitude', 'sun_direction', 0, 0, 1, 0.1, 0.05, 0.0],
+]
 
 mod_list = [
     lambda x: x,                    # 0 positive
@@ -27,9 +31,19 @@ mod_list = [
     lambda x: 0.5                   # 7 half
 ]
 
-point_size = 0.1
-point_opacity = 0.05
-shift_magnitude = 0.008
+x_data = preset_metadata[preset][0]
+y_data = preset_metadata[preset][1]
+r_data = preset_metadata[preset][2]
+g_data = preset_metadata[preset][3]
+b_data = preset_metadata[preset][4]
+
+r_mod = preset_metadata[preset][5]
+g_mod = preset_metadata[preset][6]
+b_mod = preset_metadata[preset][7]
+
+point_size = preset_metadata[preset][8]
+point_opacity = preset_metadata[preset][9]
+shift_magnitude = preset_metadata[preset][10]
 
 # Path containing the labels
 directory = LABEL_SAVE_PATH

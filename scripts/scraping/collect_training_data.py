@@ -17,8 +17,8 @@ last_data_refresh = 0
 data_refresh_interval = 60
 
 # Create directories
-for youtube_id in video_source_metadata.keys():
-    os.makedirs(STREAM_IMAGE_SAVE_PATH + youtube_id + '/', exist_ok=True)
+for source_id in video_source_metadata.keys():
+    os.makedirs(STREAM_IMAGE_SAVE_PATH + source_id + '/', exist_ok=True)
 
 # Refresh Loop
 while True:
@@ -31,37 +31,34 @@ while True:
 
     # Check if stream url refresh is needed
     refresh_stream_urls = time.time() - last_url_refresh > stream_refresh_interval
-    for youtube_id, log_field_dict in video_source_metadata.items():
+    for source_id, log_field_dict in video_source_metadata.items():
 
         # Get stream urls if needed
-        if refresh_stream_urls or youtube_id not in stream_urls:
-            print_log("INFO", f"Refreshing YouTube stream URL for video id {youtube_id}.")
-            stream_urls[youtube_id] = get_stream_url(youtube_id)
+        if refresh_stream_urls or source_id not in stream_urls:
+            print_log("INFO", f"Refreshing source stream URL for video id {source_id}.")
+            stream_urls[source_id] = get_stream_url(source_id)
 
         # If stream url did not update, continue
-        if not stream_urls[youtube_id]:
-            print_log("ERROR", f"Stream url for video id {youtube_id} not retrieved.")
+        if not stream_urls[source_id]:
+            print_log("ERROR", f"Stream url for video id {source_id} not retrieved.")
             continue
 
         # Get file name and path
         dt_now = datetime.now()
-        file_path = f"{STREAM_IMAGE_SAVE_PATH}{youtube_id}/"
+        file_path = f"{STREAM_IMAGE_SAVE_PATH}{source_id}/"
         file_name = f"{datetime.strftime(dt_now, '%Y-%m-%d-%H-%M-%S')}"
 
-        result = save_video_screenshot(stream_urls[youtube_id], file_path, file_name, VIDEO_WIDTH, VIDEO_HEIGHT,
+        result = save_video_screenshot(stream_urls[source_id], file_path, file_name, VIDEO_WIDTH, VIDEO_HEIGHT,
                                        log_field_dict["crop_left"], log_field_dict["crop_top"],
                                        log_field_dict["crop_right"], log_field_dict["crop_bottom"])
         if result == 0:
-            stream_urls[youtube_id] = get_stream_url(youtube_id)
+            stream_urls[source_id] = get_stream_url(source_id)
             continue
 
         # Save labels
         labels = collect_labels(dt_now, log_field_dict['region'], log_field_dict['latitude'],
                                 log_field_dict['longitude'], log_field_dict['elevation'])
-        label_output = f"{youtube_id};{datetime.strftime(dt_now, '%Y;%m;%d;%H;%M;%S')};{';'.join([str(label) for label in labels])}"
-        with open(f"{LABEL_SAVE_PATH}{youtube_id}.txt", "a") as file:
-            file.write(f"{label_output}\n")
-        print_log("INFO", f"Saved label data: {label_output}")
+        write_label_to_file(source_id, dt_now, labels)
 
     # Update refresh times if needed
     if refresh_stream_urls:

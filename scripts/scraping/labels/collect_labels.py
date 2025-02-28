@@ -1,6 +1,7 @@
 from scripts.scraping.labels.request_location_data import *
 from scripts.scraping.labels.request_web_labels import *
 from scripts.scraping.labels.request_sun_values import *
+from scripts.localConfig import *
 
 LABEL_NAMES = ['date', 'time', 'latitude', 'longitude', 'elevation'] + WEB_LABELS_NAMES + ['sun_direction', 'sun_altitude']
 
@@ -20,3 +21,9 @@ def collect_labels(dt, region, latitude, longitude, elevation=None, dt_format=No
 
     return labels
 
+
+def write_label_to_file(source_id, dt, labels):
+    label_output = f"{source_id};{datetime.strftime(dt, '%Y;%m;%d;%H;%M;%S')};{';'.join([str(label) for label in labels])}"
+    with open(f"{LABEL_SAVE_PATH}{source_id}.txt", "a") as file:
+        file.write(f"{label_output}\n")
+    print_log("INFO", f"Saved label data: {label_output}")
