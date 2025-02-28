@@ -2,10 +2,13 @@ from scripts.metadata.json_metadata_manager import *
 from scripts.scraping.labels.request_location_data import *
 from scripts.localConfig import *
 
-
+# Quality: 0 = Blurry, 1 = Over Processed, 2 = Bad Exposure, 3 = Natural
+# Static: 0 = Movement, 1 = Slight Shifts, 2 = Perfectly Static
 VIDEO_SOURCE_METADATA_FIELDS = ["region", "latitude", "longitude", "elevation",
-                                "crop_left", "crop_top", "crop_right", "crop_bottom"]
-VIDEO_SOURCE_METADATA_DEFAULTS = {"region": "NA", "latitude": 0.0, "longitude": 0.0}
+                                "crop_left", "crop_top", "crop_right", "crop_bottom",
+                                "quality", "static"]
+VIDEO_SOURCE_METADATA_DEFAULTS = {"region": "NA", "latitude": 0.0, "longitude": 0.0,
+                                  "quality": 0, "static": 0}
 
 video_source_metadata_manager = MetadataManager(SOURCE_METADATA_FILE, VIDEO_SOURCE_METADATA_FIELDS, 0,
                                                 VIDEO_SOURCE_METADATA_DEFAULTS, '<youtube_id>')
