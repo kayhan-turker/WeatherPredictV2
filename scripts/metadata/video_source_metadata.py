@@ -22,6 +22,6 @@ if VALIDATE_ALTITUDES:
         latitude, longitude = field_dict['latitude'], field_dict['longitude']
         video_source_metadata[source_id]['elevation'] = request_location_data(latitude, longitude)['elevation']
 
-# Re-write json with updated metadata
-print_log("INFO", "Updating source metadata JSON file.")
-video_source_metadata_manager.write_request_log(video_source_metadata)
+    # Re-write json with updated metadata
+    print_log("INFO", "Updating source metadata JSON file.")
+    video_source_metadata_manager.write_request_log(video_source_metadata)

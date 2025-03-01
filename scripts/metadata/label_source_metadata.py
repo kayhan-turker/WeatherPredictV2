@@ -1,7 +1,7 @@
 from scripts.utils import *
+from scripts.constants import *
 
 REGIONS = ['CANADA', 'UNITED STATES', 'GLOBAL']
-WEB_LABELS_NAMES = ['temperature', 'pressure', 'humidity', 'wind', 'dewpoint']
 
 REGION_WEBSITES = {
     'CANADA': 'weather.gc.ca',

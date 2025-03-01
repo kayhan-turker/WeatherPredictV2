@@ -1,49 +1,22 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from scripts.localConfig import *
 from scripts.scraping.labels.collect_labels import *
+from scripts.constants import *
 
-DATA_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'second'] + LABEL_NAMES
 
-print(DATA_FILE_FIELDS)
+x_data = 'temperature'
+y_data = 'pressure'
+r_data = 'sun_altitude'
+g_data = 'date'
+b_data = 'sun_altitude'
 
-preset = 7
-preset_metadata = [
-    # X-AXIS, Y-AXIS, R-AXIS, G-AXIS, B-AXIS, r-mod, g-mod, b-mod, p-size, p-alph, p-blur
-    ['longitude', 'latitude', 'longitude', 'longitude', 'latitude',             0, 1, 0,    0.1, 0.1, 0.0],     # 0. LOCATION MAP
-    ['temperature', 'pressure', 'longitude', 'longitude', 'latitude',           0, 1, 0,    0.1, 0.05, 0.001],  # 1. T P LOCATION
-    ['temperature', 'humidity', 'longitude', 'longitude', 'latitude',           0, 1, 0,    0.1, 0.05, 0.001],  # 2. T H LOCATION
-    ['temperature', 'pressure', 'sun_altitude', 'sun_altitude', 'date',         0, 0, 1,    0.1, 0.05, 0.001],  # 3. T P DATETIME
-    ['temperature', 'humidity', 'sun_altitude', 'sun_altitude', 'date',         0, 0, 1,    0.1, 0.05, 0.001],  # 4. T H DATETIME
-    ['temperature', 'pressure', 'latitude', 'date', 'sun_altitude',             2, 0, 0,    0.1, 0.05, 0.001],  # 5. T P DTLOC
-    ['temperature', 'humidity', 'latitude', 'date', 'sun_altitude',             2, 0, 0,    0.1, 0.05, 0.001],  # 6. T H DTLOC
-    ['date', 'sun_altitude', 'sun_altitude', 'date', 'date', 0, 0, 7, 0.05, 0.1, 0.008],
-]
+r_mod = lambda r, g, b: 0.5 * r
+g_mod = lambda r, g, b: g * b  # (1 - abs(2 * g - 1)) * b
+b_mod = lambda r, g, b: (1 - b) * (1 - b)
 
-mod_list = [
-    lambda x: x,                    # 0 positive
-    lambda x: 1 - x,                # 1 negative
-    lambda x: 1 - abs(2 * x - 1),   # 2 cyclical
-    lambda x: abs(2 * x - 1),       # 3 reverse cyclical
-    lambda x: 0.5 * (0.5 + x),      # 4 muted
-    lambda x: 0,                    # 5 zero
-    lambda x: 1,                    # 6 one
-    lambda x: 0.5                   # 7 half
-]
-
-x_data = preset_metadata[preset][0]
-y_data = preset_metadata[preset][1]
-r_data = preset_metadata[preset][2]
-g_data = preset_metadata[preset][3]
-b_data = preset_metadata[preset][4]
-
-r_mod = preset_metadata[preset][5]
-g_mod = preset_metadata[preset][6]
-b_mod = preset_metadata[preset][7]
-
-point_size = preset_metadata[preset][8]
-point_opacity = preset_metadata[preset][9]
-shift_magnitude = preset_metadata[preset][10]
+point_size = 0.05
+point_opacity = 0.25
+shift_magnitude = 0.003
 
 # Path containing the labels
 directory = LABEL_SAVE_PATH
@@ -116,9 +89,9 @@ for index in range(len(colors)):
 
     # Set the median to be the brightest if required (rather than maximum value)
     colors[index] = (
-        mod_list[r_mod](colors[index][0]),
-        mod_list[g_mod](colors[index][1]),
-        mod_list[b_mod](colors[index][2]),
+        r_mod(colors[index][0], colors[index][1], colors[index][2]),
+        g_mod(colors[index][0], colors[index][1], colors[index][2]),
+        b_mod(colors[index][0], colors[index][1], colors[index][2]),
     )
 
 # Shift points randomly to reduce overlaying
@@ -129,7 +102,7 @@ y_shifted = y_values + np.random.uniform(-y_mag, y_mag, size=len(y_values))
 
 # Create the scatter plot
 plt.figure(facecolor='#222222')
-plt.gca().set_facecolor('#1a1a1a')
+plt.gca().set_facecolor('#000000')
 plt.scatter(x_shifted, y_shifted, c=colors, s=point_size, alpha=point_opacity)
 
 # Add labels and title

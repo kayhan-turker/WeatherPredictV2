@@ -3,8 +3,6 @@ from scripts.scraping.labels.request_web_labels import *
 from scripts.scraping.labels.request_sun_values import *
 from scripts.localConfig import *
 
-LABEL_NAMES = ['date', 'time', 'latitude', 'longitude', 'elevation'] + WEB_LABELS_NAMES + ['sun_direction', 'sun_altitude']
-
 
 def collect_labels(dt, region, latitude, longitude, elevation=None, dt_format=None):
     if isinstance(dt, str):

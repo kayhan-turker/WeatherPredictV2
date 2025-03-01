@@ -4,7 +4,7 @@ import re
 from PIL import Image
 from io import BytesIO
 from datetime import datetime
-from scripts.config import *
+from scripts.constants import *
 
 # ================================
 #  CONSTANTS

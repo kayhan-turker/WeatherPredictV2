@@ -92,11 +92,3 @@ def check_image_label_exists(auto_remove=False):
                     print_log("INFO", f"Removing image...")
                     image_file_path = os.path.join(image_folder_path, image_file)
                     os.remove(image_file_path)
-
-
-print_log("INFO", "Checking if image labels exist...")
-check_image_label_exists(True)
-print_log("INFO", "Checking label completion...")
-check_label_complete(True)
-print_log("INFO", "Checking if label images exist...")
-check_label_image_exists(True)
