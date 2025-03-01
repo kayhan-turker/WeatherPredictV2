@@ -15,10 +15,12 @@ video_source_metadata_manager = MetadataManager(SOURCE_METADATA_FILE, VIDEO_SOUR
 video_source_metadata = video_source_metadata_manager.read_request_log()
 
 # Print validate altitudes
-print_log("INFO", "Validating location elevations.")
-for source_id, field_dict in video_source_metadata.items():
-    latitude, longitude = field_dict['latitude'], field_dict['longitude']
-    video_source_metadata[source_id]['elevation'] = request_location_data(latitude, longitude)['elevation']
+VALIDATE_ALTITUDES = False
+if VALIDATE_ALTITUDES:
+    print_log("INFO", "Validating location elevations.")
+    for source_id, field_dict in video_source_metadata.items():
+        latitude, longitude = field_dict['latitude'], field_dict['longitude']
+        video_source_metadata[source_id]['elevation'] = request_location_data(latitude, longitude)['elevation']
 
 # Re-write json with updated metadata
 print_log("INFO", "Updating source metadata JSON file.")

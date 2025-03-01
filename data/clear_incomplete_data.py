@@ -27,9 +27,9 @@ def check_label_complete(auto_remove=False):
                             print_log("INFO", f"Removing label...")
 
                             # If there's a corresponding image, delete it
-                            image_file_path = os.path.join(f"{STREAM_IMAGE_SAVE_PATH}{source_id}/", f"{datetime_str}.jpg")
+                            image_file_path = os.path.join(f"{STREAM_IMAGE_SAVE_PATH}{label_file}/", f"{datetime_str}.jpg")
                             if os.path.exists(image_file_path):
-                                print_log("INFO", f"Removing corresponding image...")
+                                print_log("INFO", f"Removing image...")
                                 os.remove(image_file_path)
 
                     # If not skipped, add it to the filtered list to be written
@@ -74,7 +74,7 @@ def check_label_image_exists(auto_remove=False):
                     file.writelines(filtered_lines)
 
 
-def check_image_label_exists(auto_write=False):
+def check_image_label_exists(auto_remove=False):
     # Go through image files to make sure all labels are present
     for source_id in os.listdir(STREAM_IMAGE_SAVE_PATH):
         image_folder_path = f"{STREAM_IMAGE_SAVE_PATH}{source_id}/"
@@ -86,19 +86,17 @@ def check_image_label_exists(auto_write=False):
 
         for image_file in os.listdir(image_folder_path):
             if image_file not in label_file_images:
-                print_log("WARNING", f"Missing label for image {image_file} from source {source_id}.")
+                print_log("ERROR", f"Missing label for image {image_file} from source {source_id}.")
 
-                if auto_write:
-                    dt_image = image_file.split('.')[0]
-                    source_metadata = video_source_metadata[source_id]
-                    labels = collect_labels(dt_image, source_metadata['region'], source_metadata['latitude'],
-                                            source_metadata['longitude'], source_metadata['elevation'])
-                    write_label_to_file(source_id, dt_image, labels)
+                if auto_remove:
+                    print_log("INFO", f"Removing image...")
+                    image_file_path = os.path.join(image_folder_path, image_file)
+                    os.remove(image_file_path)
 
 
 print_log("INFO", "Checking if image labels exist...")
-check_image_label_exists()
+check_image_label_exists(True)
 print_log("INFO", "Checking label completion...")
-check_label_complete()
+check_label_complete(True)
 print_log("INFO", "Checking if label images exist...")
-check_label_image_exists()
+check_label_image_exists(True)

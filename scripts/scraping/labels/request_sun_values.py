@@ -12,4 +12,7 @@ def request_sun_values(latitude, longitude):
     direction = round(float(search_in_text(response_text, SUN_DIRECTION_FORMAT)), 2)
     altitude = round(90 - float(search_in_text(response_text, SUN_ALTITUDE_FORMAT)), 2)
 
+    direction = round(direction % 360, 2)
+    altitude = round((altitude + 180) % 360 - 180, 2)
+
     return direction, altitude

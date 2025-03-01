@@ -17,7 +17,7 @@ preset_metadata = [
     ['temperature', 'humidity', 'sun_altitude', 'sun_altitude', 'date',         0, 0, 1,    0.1, 0.05, 0.001],  # 4. T H DATETIME
     ['temperature', 'pressure', 'latitude', 'date', 'sun_altitude',             2, 0, 0,    0.1, 0.05, 0.001],  # 5. T P DTLOC
     ['temperature', 'humidity', 'latitude', 'date', 'sun_altitude',             2, 0, 0,    0.1, 0.05, 0.001],  # 6. T H DTLOC
-    ['temperature', 'pressure', 'sun_direction', 'sun_altitude', 'sun_direction', 0, 0, 1, 0.1, 0.05, 0.0],
+    ['date', 'sun_altitude', 'sun_altitude', 'date', 'date', 0, 0, 7, 0.05, 0.1, 0.008],
 ]
 
 mod_list = [

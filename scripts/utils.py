@@ -21,6 +21,7 @@ COMMON_DATETIME_FORMATS = [
     "%m/%d/%Y %H:%M:%S",
     "%H:%M:%S %Y-%m-%d",
     "%Y%m%d%H%M%S",
+    "%Y-%m-%d-%H-%M-%S",
 ]
 
 
