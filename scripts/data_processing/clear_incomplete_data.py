@@ -1,5 +1,5 @@
-from scripts.scraping.labels.collect_labels import *
-from scripts.metadata.video_source_metadata import *
+from scripts.localConfig import *
+from scripts.utils import *
 
 
 def check_label_complete(auto_remove=False):

@@ -2,11 +2,13 @@ from scripts.metadata.label_source_metadata import *
 
 
 def request_web_labels(region, latitude, longitude):
+    validate_label_source_metadata()
+
     website = REGION_WEBSITES[region]
     url = WEBSITE_URLS[website].replace(LATITUDE_PLACEHOLDER, str(latitude)).replace(LONGITUDE_PLACEHOLDER, str(longitude))
     url_page_text = re.sub(r"\s+", " ", get_url_page_text(url))
 
-    labels = {}
+    label = {}
     for label_name in WEB_LABELS_NAMES:
         label_search_string = WEB_LABEL_SEARCH_STRING[website][label_name]
         new_val = search_in_text(url_page_text, label_search_string)
@@ -23,5 +25,5 @@ def request_web_labels(region, latitude, longitude):
         else:
             print_log("WARNING", f"To validate missed {label_name}, see url:")
             print(url)
-        labels[label_name] = new_val
-    return labels
+        label[label_name] = new_val
+    return label

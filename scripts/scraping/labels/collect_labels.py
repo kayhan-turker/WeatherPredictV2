@@ -13,11 +13,11 @@ def collect_labels(dt, region, latitude, longitude, elevation=None, dt_format=No
 
     elevation = elevation if elevation is not None else request_location_data(latitude, longitude)['elevation']
 
-    labels = [date, time, latitude, longitude, elevation]
-    labels += list(request_web_labels(region, latitude, longitude).values())
-    labels += request_sun_values(latitude, longitude)
+    label = [date, time, latitude, longitude, elevation]
+    label += list(request_web_labels(region, latitude, longitude).values())
+    label += request_sun_values(latitude, longitude)
 
-    return labels
+    return label
 
 
 def write_label_to_file(source_id, dt, labels):

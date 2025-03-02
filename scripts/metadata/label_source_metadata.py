@@ -59,19 +59,21 @@ WEB_LABEL_MULTIPLIER = {
     },
 }
 
-# Check for any missing values in dictionaries!
-for website, web_labels_search_strings in WEB_LABEL_SEARCH_STRING.items():
-    web_labels = list(web_labels_search_strings.keys())
-    for label in WEB_LABELS_NAMES:
-        if label not in web_labels:
-            print_log("ERROR", f"Missing label {label} from LABEL_SEARCH_STRING ({website})!")
 
-for website in WEBSITE_URLS.keys():
-    if website not in list(WEB_LABEL_SEARCH_STRING.keys()):
-        print_log("ERROR", f"Missing website {website} from LABEL_SEARCH_STRING!")
+def validate_label_source_metadata():
+    # Check for any missing values in dictionaries!
+    for website, web_labels_search_strings in WEB_LABEL_SEARCH_STRING.items():
+        web_labels = list(web_labels_search_strings.keys())
+        for label in WEB_LABELS_NAMES:
+            if label not in web_labels:
+                print_log("ERROR", f"Missing label {label} from LABEL_SEARCH_STRING ({website})!")
 
-for website, url in WEBSITE_URLS.items():
-    if LATITUDE_PLACEHOLDER not in url:
-        print_log("ERROR", f"Missing latitude placeholder '{LATITUDE_PLACEHOLDER}' from {website} url!")
-    if LONGITUDE_PLACEHOLDER not in url:
-        print_log("ERROR", f"Missing longitude placeholder '{LONGITUDE_PLACEHOLDER}' from {website} url!")
+    for website in WEBSITE_URLS.keys():
+        if website not in list(WEB_LABEL_SEARCH_STRING.keys()):
+            print_log("ERROR", f"Missing website {website} from LABEL_SEARCH_STRING!")
+
+    for website, url in WEBSITE_URLS.items():
+        if LATITUDE_PLACEHOLDER not in url:
+            print_log("ERROR", f"Missing latitude placeholder '{LATITUDE_PLACEHOLDER}' from {website} url!")
+        if LONGITUDE_PLACEHOLDER not in url:
+            print_log("ERROR", f"Missing longitude placeholder '{LONGITUDE_PLACEHOLDER}' from {website} url!")

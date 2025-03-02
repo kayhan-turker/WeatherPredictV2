@@ -1,11 +1,27 @@
 
+# ======================
+# IMAGE CONSTANTS
+# ====================
+
+IMAGE_SIZE = 512
+
+# ======================
+# LABEL CONSTANTS
+# ====================
 
 WEB_LABELS_NAMES = ['temperature', 'pressure', 'humidity', 'wind', 'dewpoint']
 LABEL_NAMES = ['date', 'time', 'latitude', 'longitude', 'elevation'] + WEB_LABELS_NAMES + ['sun_direction', 'sun_altitude']
 DATA_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'second'] + LABEL_NAMES
 
-LMDB_METADATA_SUFFIXES = [b'_labels', b'_quality', b'_static']
+# ======================
+# LMDB CONSTANTS
+# ====================
 
+LMDB_METADATA_SUFFIXES = [b'_label', b'_quality', b'_stillness']
+
+# ======================
+# OTHER CONSTANTS
+# ====================
 
 LOG_COLORS = {
     "INFO": "\033[95m",

@@ -10,9 +10,9 @@ r_data = 'sun_altitude'
 g_data = 'date'
 b_data = 'sun_altitude'
 
-r_mod = lambda r, g, b: 0.5 * r
-g_mod = lambda r, g, b: g * b  # (1 - abs(2 * g - 1)) * b
-b_mod = lambda r, g, b: (1 - b) * (1 - b)
+r_mod = lambda r, g, b: r * (1 - g)
+g_mod = lambda r, g, b: 0.5 * (r * (1 + g) + 0.5 * g * (1 - r))  # (1 - abs(2 * g - 1)) * b
+b_mod = lambda r, g, b: (1 - b) - (1 - g) * (1 - r) * 0.5
 
 point_size = 0.05
 point_opacity = 0.25

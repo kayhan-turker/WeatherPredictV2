@@ -16,8 +16,10 @@ stream_refresh_interval = 7200
 last_data_refresh = 0
 data_refresh_interval = 60
 
+video_metadata, _ = init_video_metadata_manager()
+
 # Create directories
-for source_id in video_source_metadata.keys():
+for source_id in video_metadata.keys():
     os.makedirs(STREAM_IMAGE_SAVE_PATH + source_id + '/', exist_ok=True)
 
 # Refresh Loop
@@ -31,7 +33,7 @@ while True:
 
     # Check if stream url refresh is needed
     refresh_stream_urls = time.time() - last_url_refresh > stream_refresh_interval
-    for source_id, log_field_dict in video_source_metadata.items():
+    for source_id, log_field_dict in video_metadata.items():
 
         # Get stream urls if needed
         if refresh_stream_urls or source_id not in stream_urls:
@@ -56,9 +58,9 @@ while True:
             continue
 
         # Save labels
-        labels = collect_labels(dt_now, log_field_dict['region'], log_field_dict['latitude'],
+        label = collect_labels(dt_now, log_field_dict['region'], log_field_dict['latitude'],
                                 log_field_dict['longitude'], log_field_dict['elevation'])
-        write_label_to_file(source_id, dt_now, labels)
+        write_label_to_file(source_id, dt_now, label)
 
     # Update refresh times if needed
     if refresh_stream_urls:
