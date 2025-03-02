@@ -8,16 +8,20 @@ def _get_image_source(image_key):
 
 
 def _get_image_metadata(image_key, metadata, txn):
-    return txn.get(f"{image_key.decode()}{LMDB_METADATA_SUFFIXES[metadata].decode()}".encode()).decode()
+    return txn.get(f"{image_key.decode()}_{metadata}".encode()).decode()
 
 
 class SourceSampler:
-    def __init__(self, lmdb_path, min_quality=None, static=None, min_sun_altitude=None, same_source_prob=None):
+    def __init__(self, lmdb_path, label_mean, label_std, min_quality=None, static=None, min_sun_altitude=None, same_source_prob=None):
         self.env = lmdb.open(lmdb_path, readonly=True)
+        self.label_mean = label_mean
+        self.label_std = label_std
+
         self.min_quality = min_quality
         self.static = static
         self.min_sun_altitude = min_sun_altitude
         self.same_source_prob = same_source_prob
+
         self.image_keys = self._load_keys()
         self.num_sources = self._count_source()
 
@@ -25,7 +29,7 @@ class SourceSampler:
         filtered_keys = []
         with (self.env.begin() as txn):
             # Filter out metadata keys (labels, quality, static)
-            image_keys = [key for key, _ in txn.cursor() if not any(key.endswith(suffix) for suffix in LMDB_METADATA_SUFFIXES.values())]
+            image_keys = [key for key, _ in txn.cursor() if not any(key.endswith(suffix) for suffix in LMDB_METADATA_SUFFIXES)]
 
             # Filter based on quality and static needs
             for key in image_keys:
@@ -45,7 +49,7 @@ class SourceSampler:
         sources = set()
         with self.env.begin() as txn:
             for key, _ in txn.cursor():
-                if not any(key.endswith(suffix) for suffix in LMDB_METADATA_SUFFIXES.values()):
+                if not any(key.endswith(suffix) for suffix in LMDB_METADATA_SUFFIXES):
                     source = _get_image_source(key)
                     sources.add(source)
 
@@ -74,4 +78,6 @@ class SourceSampler:
             image_bytes = txn.get(key)
             image = cv2.imdecode(np.frombuffer(image_bytes, dtype=np.uint8), cv2.IMREAD_COLOR)
             label = _get_image_metadata(key, 'labels', txn)
-        return image, label
+
+        normalized_label = (label - self.label_mean) / self.label_std
+        return image, normalized_label

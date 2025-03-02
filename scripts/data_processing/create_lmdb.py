@@ -30,9 +30,9 @@ def create_lmdb(source_folder, label_folder, lmdb_path, target_height):
                 static = video_source_metadata[source]["static"]
 
                 txn.put(key, image_bytes)
-                txn.put(key + LMDB_METADATA_SUFFIXES['labels'], labels.strip().encode())
-                txn.put(key + LMDB_METADATA_SUFFIXES['quality'], str(quality).encode())
-                txn.put(key + LMDB_METADATA_SUFFIXES['static'], str(static).encode())
+                txn.put(key + b'labels', labels.strip().encode())
+                txn.put(key + b'quality', str(quality).encode())
+                txn.put(key + b'static', str(static).encode())
 
 
 
