@@ -10,8 +10,8 @@ def calculate_label_stats(lmdb_path):
     with env.begin() as txn:
         # Iterate over all keys and extract labels
         for key, value in txn.cursor():
-            if key.endswith(b'_label'):  # Check if the key is a label
-                label = value.decode().split(';')[len(DATA_FILE_FIELDS) - len(LABEL_NAMES):]
+            if key.endswith(b':label'):  # Check if the key is a label
+                label = value.decode().split(';')[NUM_LABEL_FILE_NON_LABELS:]
                 label = [float(x) for x in label]  # Convert label to float
                 label_records.append(label)
 

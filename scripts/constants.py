@@ -11,13 +11,17 @@ IMAGE_SIZE = 512
 
 WEB_LABELS_NAMES = ['temperature', 'pressure', 'humidity', 'wind', 'dewpoint']
 LABEL_NAMES = ['date', 'time', 'latitude', 'longitude', 'elevation'] + WEB_LABELS_NAMES + ['sun_direction', 'sun_altitude']
-DATA_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'second'] + LABEL_NAMES
+LABEL_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'second'] + LABEL_NAMES
+
+NUM_LABELS = len(LABEL_NAMES)
+NUM_LABEL_FILE_FIELDS = len(LABEL_FILE_FIELDS)
+NUM_LABEL_FILE_NON_LABELS = NUM_LABEL_FILE_FIELDS - NUM_LABELS
 
 # ======================
 # LMDB CONSTANTS
 # ====================
 
-LMDB_METADATA_SUFFIXES = [b'_label', b'_quality', b'_stillness']
+LMDB_METADATA_SUFFIXES = [b':label', b':quality', b':stillness']
 
 # ======================
 # OTHER CONSTANTS

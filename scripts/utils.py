@@ -1,9 +1,10 @@
-import os
+import torchvision.transforms as transforms
 import requests
+import os
 import re
-from PIL import Image
-from io import BytesIO
 from datetime import datetime
+from io import BytesIO
+from PIL import Image
 from scripts.constants import *
 
 # ================================
@@ -141,3 +142,12 @@ def save_url_image(image_url, file_path, file_name, show_current=False,
     image.save(f"{file_path}{file_name}.jpg")
     print_log("INFO", f"Image {file_name} saved in {file_path}.")
 
+
+def show_tensor_image(tensor):
+    print(tensor.ndim)
+    if tensor.ndim == 4:  # If a batch, take the first image
+        tensor = tensor[0]
+
+    to_pil = transforms.ToPILImage()
+    image = to_pil(tensor.cpu().detach())
+    image.show()

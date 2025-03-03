@@ -7,6 +7,6 @@ def preprocess_image(image_path, target_size):
 
     short_dim = 0 if w > h else 1
     scaling = target_size / image.shape[short_dim]
-    resized_image = cv2.resize(image, (int(w * scaling), int(h * scaling)))
+    resized_image = cv2.resize(image, (int(round(w * scaling)), int(round(h * scaling))))
 
     return resized_image

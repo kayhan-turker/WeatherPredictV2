@@ -7,25 +7,25 @@ from scripts.constants import *
 x_data = 'temperature'
 y_data = 'pressure'
 r_data = 'sun_altitude'
-g_data = 'date'
+g_data = 'sun_altitude'
 b_data = 'sun_altitude'
 
-r_mod = lambda r, g, b: r * (1 - g)
-g_mod = lambda r, g, b: 0.5 * (r * (1 + g) + 0.5 * g * (1 - r))  # (1 - abs(2 * g - 1)) * b
-b_mod = lambda r, g, b: (1 - b) - (1 - g) * (1 - r) * 0.5
+r_mod = lambda r, g, b: min(max(2.0 * (r - 0.95) + 0.75, 0), 1)  # r * (1 - g)
+g_mod = lambda r, g, b: min(max(1.0 * (g - 0.25) + 0.00, 0), 1)  # 0.5 * (r * (1 + g) + 0.5 * g * (1 - r))  # (1 - abs(2 * g - 1)) * b
+b_mod = lambda r, g, b: min(max(0.2 * (b - 0.5) + 0.30, 0), 1)  # (1 - b) - (1 - 0.5 * g) * (1 - r) * 0.5
 
 point_size = 0.05
-point_opacity = 0.25
+point_opacity = 0.5
 shift_magnitude = 0.003
 
 # Path containing the labels
 directory = LABEL_SAVE_PATH
 
-x_column = DATA_FILE_FIELDS.index(x_data)
-y_column = DATA_FILE_FIELDS.index(y_data)
-r_column = DATA_FILE_FIELDS.index(r_data)
-g_column = DATA_FILE_FIELDS.index(g_data)
-b_column = DATA_FILE_FIELDS.index(b_data)
+x_column = LABEL_FILE_FIELDS.index(x_data)
+y_column = LABEL_FILE_FIELDS.index(y_data)
+r_column = LABEL_FILE_FIELDS.index(r_data)
+g_column = LABEL_FILE_FIELDS.index(g_data)
+b_column = LABEL_FILE_FIELDS.index(b_data)
 
 # Initialize lists to store x and y values
 x_values = []
