@@ -1,4 +1,5 @@
 import torchvision.transforms as transforms
+import numpy as np
 import requests
 import os
 import re
@@ -23,6 +24,7 @@ COMMON_DATETIME_FORMATS = [
     "%H:%M:%S %Y-%m-%d",
     "%Y%m%d%H%M%S",
     "%Y-%m-%d-%H-%M-%S",
+    "%Y;%m;%d;%H;%M;%S",
 ]
 
 
@@ -75,6 +77,15 @@ def search_in_text(text, search_pattern, group_num=1):
         return None
 
     return match.group(group_num) if match and group_num <= match.lastindex else None
+
+
+def count_text_lines_in_directory(directory):
+    count = 0
+    for filename in os.listdir(directory):
+        if filename.endswith('.txt'):
+            with open(os.path.join(directory, filename), 'r', encoding='utf-8') as file:
+                count += np.count_nonzero([bool(line.strip()) for line in file])
+    return count
 
 
 # ================================
