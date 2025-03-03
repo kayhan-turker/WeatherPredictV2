@@ -18,8 +18,6 @@ g_mod = lambda r, g, b: min(max(2.20 * (g - 0.7) + 0.75, 0), 0.85)
 b_mod = lambda r, g, b: min(max(0.2 * (b - 0.30) + 0.5, 0), 1)
 
 point_size = 0.05
-point_opacity = 0.5
-shift_magnitude = 0.00
 
 # Path containing the labels
 x_index = LABEL_FILE_FIELDS.index(x_field)
@@ -34,8 +32,6 @@ y_values = np.zeros(num_records)
 t_values = np.zeros(num_records)
 colors = np.zeros((num_records, 3))
 
-x_max, x_min = None, None
-y_max, y_min = None, None
 t_max, t_min = None, None
 r_max, r_min = None, None
 g_max, g_min = None, None
@@ -61,33 +57,14 @@ for filename in os.listdir(LABEL_SAVE_PATH):
                             is_valid_value(columns[r_index]) and is_valid_value(columns[g_index]) and
                             is_valid_value(columns[b_index]) and filter_condition(columns)):
 
-                        # Convert values to floats
-                        x_value = float(columns[x_index])
-                        y_value = float(columns[y_index])
-                        t_value = float(columns[7]) + float(columns[1])
-                        r_value = float(columns[r_index]) / 255.0
-                        g_value = float(columns[g_index]) / 255.0
-                        b_value = float(columns[b_index]) / 255.0
-
-                        x_values[counted_records] = x_value
-                        y_values[counted_records] = y_value
-                        t_values[counted_records] = t_value
-                        colors[counted_records] = np.array((r_value, g_value, b_value))
-
-                        # Update max and min values for the rgb channels
-                        x_max = x_value if x_max is None or x_value > x_max else x_max
-                        x_min = x_value if x_min is None or x_value < x_min else x_min
-                        y_max = y_value if y_max is None or y_value > y_max else y_max
-                        y_min = y_value if y_min is None or y_value < y_min else y_min
-                        t_max = t_value if t_max is None or t_value > t_max else t_max
-                        t_min = t_value if t_min is None or t_value < t_min else t_min
-
-                        r_max = r_value if r_max is None or r_value > r_max else r_max
-                        r_min = r_value if r_min is None or r_value < r_min else r_min
-                        g_max = g_value if g_max is None or g_value > g_max else g_max
-                        g_min = g_value if g_min is None or g_value < g_min else g_min
-                        b_max = b_value if b_max is None or b_value > b_max else b_max
-                        b_min = b_value if b_min is None or b_value < b_min else b_min
+                        # Store values into np array
+                        x_values[counted_records] = float(columns[x_index])
+                        y_values[counted_records] = float(columns[y_index])
+                        t_values[counted_records] = float(columns[7]) + float(columns[1])
+                        colors[counted_records] = np.array((
+                            float(columns[r_index]) / 255.0,
+                            float(columns[g_index]) / 255.0,
+                            float(columns[b_index]) / 255.0))
 
                         counted_records += 1
 
@@ -95,6 +72,11 @@ x_values = x_values[:counted_records]
 y_values = y_values[:counted_records]
 t_values = t_values[:counted_records]
 colors = colors[:counted_records]
+
+t_max, t_min = t_values.max(), t_values.min()
+r_max, r_min = colors[:, 0].max(), colors[:, 0].min()
+g_max, g_min = colors[:, 0].max(), colors[:, 0].min()
+b_max, b_min = colors[:, 0].max(), colors[:, 0].min()
 
 # Adjust the color values
 for index in range(len(colors)):
@@ -110,33 +92,49 @@ for index in range(len(colors)):
         b_mod(colors[index][0], colors[index][1], colors[index][2]),
     )
 
-print(t_max, t_min)
-
+# Time range setup
 max_range = t_max - t_min
 set_range = max_range
-r1, r2 = 0, set_range
-x_slice = x_values
-y_slice = y_values
+range_step = max_range / 50
+t1, t2 = t_min, t_min + set_range
+
+# Adjust visibility
+visible = np.where((t_values >= t1) & (t_values <= t2), 1.0, 0.0)
+
+
+def on_key(event):
+    global t1, t2, t_max, t_min, max_range, set_range, range_step, visible
+
+    if event.key == 'right':
+        t1 = min(t_max - set_range, t1 + range_step)
+        t2 = min(t_max, t2 + range_step)
+    elif event.key == 'left':
+        t1 = max(t_min, t1 - range_step)
+        t2 = max(t_min + set_range, t2 - range_step)
+
+    if event.key == 'up':
+        set_range = min(max_range, set_range + range_step)
+        if t1 > t_min:
+            t1 = t2 - set_range
+        else:
+            t2 = t1 + set_range
+    elif event.key == 'down':
+        set_range = max(range_step, set_range - range_step)
+        t1 = t2 - set_range
+
+    # Update visibility mask in place (no reallocation)
+    np.putmask(visible, (t_values >= t1) & (t_values <= t2), 1.0)
+    np.putmask(visible, ~((t_values >= t1) & (t_values <= t2)), 0.0)
+
+    # Update scatter plot without re-drawing everything
+    sc.set_alpha(0.5 * visible + 0.01)
+    plt.draw()
+
 
 # Create the scatter plot
 fig, ax = plt.subplots(facecolor='#222222')
 ax.set_facecolor('#000000')
-sc = ax.scatter(x_slice, y_slice, c=colors, s=point_size, alpha=point_opacity)
-
-
-def on_key(event):
-    global r1, r2, set_range, t_max, t_min
-
-    if event.key == 'right':
-        r1 = min(max_range - set_range, r1 + 1)
-        r2 = min(max_range, r2 + 1)
-    elif event.key == 'left':
-        r1 = max(0, r1 - 1)
-        r2 = max(set_range, r2 - 1)
-
-    plt.draw()
-
-
+sc = ax.scatter(x_values, y_values, c=colors, s=point_size, alpha=(0.5 * visible + 0.01).astype(float))
 fig.canvas.mpl_connect('key_press_event', on_key)
 
 

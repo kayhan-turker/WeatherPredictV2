@@ -80,12 +80,20 @@ def search_in_text(text, search_pattern, group_num=1):
 
 
 def count_text_lines_in_directory(directory):
-    count = 0
+    record_count = 0
     for filename in os.listdir(directory):
         if filename.endswith('.txt'):
             with open(os.path.join(directory, filename), 'r', encoding='utf-8') as file:
-                count += np.count_nonzero([bool(line.strip()) for line in file])
-    return count
+                record_count += np.count_nonzero([bool(line.strip()) for line in file])
+    return record_count
+
+
+def get_text_file_list_in_directory(directory):
+    file_list = []
+    for filename in os.listdir(directory):
+        if filename.endswith('.txt'):
+            file_list.append(filename.split('.')[0])
+    return file_list
 
 
 # ================================
