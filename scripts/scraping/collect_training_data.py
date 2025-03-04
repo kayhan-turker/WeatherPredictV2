@@ -16,7 +16,7 @@ stream_refresh_interval = 7200
 last_data_refresh = 0
 data_refresh_interval = 60
 
-video_metadata, _ = init_video_metadata_manager()
+video_metadata, _ = init_video_metadata_manager(validate_altitudes=False)
 
 # Create directories
 for source_id in video_metadata.keys():

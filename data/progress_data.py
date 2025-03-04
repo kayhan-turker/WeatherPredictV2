@@ -15,7 +15,7 @@ key_states = {"left": False, "right": False}
 
 
 # Get count of records
-num_records = count_text_lines_in_directory(LABEL_SAVE_PATH)
+num_records = count_text_lines_in_directory(LABEL_SAVE_PATH) + 1
 source_list = sorted(get_text_file_list_in_directory(LABEL_SAVE_PATH))
 num_sources = len(source_list)
 
@@ -117,7 +117,7 @@ sc = ax.scatter([], [], c=[], s=point_size, alpha=0.0)
 
 # Point in time setup
 set_t = (t_max + t_min) / 2
-t_step = 0.0002
+t_step = 0.0001
 xt = np.zeros(num_sources)
 yt = np.zeros(num_sources)
 ct = np.zeros((num_sources, 3))
@@ -190,11 +190,11 @@ def on_key_release(event):
 def animation_update(_):
     global t_max, t_min, set_t, t_step
     if key_states["right"]:
-        set_t = set_t + t_step if set_t + t_step < t_max else t_min
+        set_t = min(t_max, set_t + t_step)
         update_points_for_t()
         update_plot()
     elif key_states["left"]:
-        set_t = set_t - t_step if set_t - t_step > t_min else t_max
+        set_t = max(t_min, set_t - t_step)
         update_points_for_t()
         update_plot()
 
@@ -209,8 +209,8 @@ def close_plot(event=None):
 # Initialize plot
 update_points_for_t()
 sc = ax.scatter(xt, yt, c=ct, s=point_size, alpha=vt.astype(float))
-ax.set_xlim(x_min - 1, x_max + 1)
-ax.set_ylim(y_min - 1, y_max + 1)
+ax.set_xlim(x_min - (x_max - x_min) * 0.001, x_max + (x_max - x_min) * 0.001)
+ax.set_ylim(y_min - (y_max - y_min) * 0.001, y_max + (y_max - y_min) * 0.001)
 
 fig.canvas.mpl_connect("close_event", close_plot)
 fig.canvas.mpl_connect("key_press_event", on_key_press)

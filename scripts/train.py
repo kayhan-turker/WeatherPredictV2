@@ -38,7 +38,7 @@ def training_loop(num_epoch, batch_size):
     print(label[:, -1])
     print(same_source)
     print(image.size())
-    show_tensor_image(image[:, 3])
+   show_tensor_image(image[:, 3])
     input("Press Enter to continue...")
     show_tensor_image(image[:, 3:])
     input("Press Enter to continue...")
