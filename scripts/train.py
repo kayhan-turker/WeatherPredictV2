@@ -3,9 +3,10 @@ from scripts.data_processing.label_statistics import *
 from scripts.data_processing.datasets import *
 from scripts.localConfig import *
 from scripts.utils import *
+from scripts.config import *
 
 
-def training_loop(num_epoch, batch_size):
+def training_loop(num_epochs, batch_size):
 
     print_log("INFO", "Initialize datasets...")
     transform = transforms.Compose([transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
@@ -28,4 +29,4 @@ def training_loop(num_epoch, batch_size):
     torch.autograd.set_detect_anomaly(False)
 
 
-training_loop(1, 32)
+training_loop(NUM_EPOCHS, BATCH_SIZE)

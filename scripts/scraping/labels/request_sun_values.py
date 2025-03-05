@@ -9,7 +9,6 @@ SUN_ALTITUDE_FORMAT = '.*"alt":\[\{"e":[0-9e\-\.]*,"p":\[([0-9e\-\.]+),.*'
 
 def request_sun_values(latitude, longitude):
     response_text = get_url_page_text(f"{SUNRISE_SUNSET_URL}{latitude},{longitude}")
-    print(">>",response_text,SUN_DIRECTION_FORMAT)
     direction = round(float(search_in_text(response_text, SUN_DIRECTION_FORMAT)), 2)
     altitude = round(90 - float(search_in_text(response_text, SUN_ALTITUDE_FORMAT)), 2)
 

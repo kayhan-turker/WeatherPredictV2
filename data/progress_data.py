@@ -123,7 +123,6 @@ xt = np.zeros(num_sources)
 yt = np.zeros(num_sources)
 ct = np.zeros((num_sources, 3))
 vt = np.zeros(num_sources)
-print(set_t, t_max, t_min)
 
 
 def update_points_for_t():
@@ -202,7 +201,6 @@ def animation_update(_):
 
 
 def close_plot(event=None):
-    print("Closing animation and exiting...")
     ani.event_source.stop()  # Stop FuncAnimation loop
     plt.close(fig)  # Close plot window
     sys.exit(0)  # Ensure script exits completely

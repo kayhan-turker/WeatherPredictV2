@@ -2,6 +2,7 @@ import time
 from scripts.metadata.video_source_metadata import *
 from scripts.scraping.labels.request_video_still import *
 from scripts.scraping.labels.collect_labels import *
+from scripts.config import *
 
 
 # Prepare logs
@@ -16,7 +17,7 @@ stream_refresh_interval = 7200
 last_data_refresh = 0
 data_refresh_interval = 60
 
-video_metadata, _ = init_video_metadata_manager(validate_altitudes=False)
+video_metadata, _ = init_video_metadata_manager(validate_altitudes=VALIDATE_ALTITUDES_BEFORE_DATA_COLLECTION)
 
 # Create directories
 for source_id in video_metadata.keys():
