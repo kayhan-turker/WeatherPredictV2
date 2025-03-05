@@ -1,6 +1,6 @@
 import lmdb
 import numpy as np
-from scripts.constants import *
+from common.constants import *
 
 
 def calculate_label_stats(lmdb_path):

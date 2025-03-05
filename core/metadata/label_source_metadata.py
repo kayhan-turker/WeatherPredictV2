@@ -1,5 +1,5 @@
-from scripts.utils import *
-from scripts.constants import *
+from common.utils import *
+from common.constants import *
 
 REGIONS = ['CANADA', 'UNITED STATES', 'GLOBAL']
 

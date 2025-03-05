@@ -1,5 +1,5 @@
-from scripts.localConfig import *
-from scripts.utils import *
+from common.localConfig import *
+from common.utils import *
 
 
 def check_label_complete(auto_remove=False):

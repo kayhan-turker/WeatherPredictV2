@@ -1,5 +1,5 @@
-from scripts.data_processing.clear_incomplete_data import *
-from scripts.data_processing.label_statistics import *
+from core.data_processing.clear_incomplete_data import *
+from core.data_processing.label_statistics import *
 
 print_log("INFO", "Checking label completion...")
 check_label_complete(True)

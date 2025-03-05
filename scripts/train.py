@@ -1,9 +1,9 @@
 from torch.utils.data import DataLoader
-from scripts.data_processing.label_statistics import *
-from scripts.data_processing.datasets import *
-from scripts.localConfig import *
-from scripts.utils import *
-from scripts.config import *
+from core.data_processing.label_statistics import *
+from core.data_processing.datasets import *
+from common.localConfig import *
+from common.utils import *
+from common.config import *
 
 
 def training_loop(num_epochs, batch_size):

@@ -1,4 +1,4 @@
-from scripts.utils import *
+from common.utils import *
 
 LOCATION_ELEVATION_URL = 'https://api.open-meteo.com/v1/forecast?latitude=<latitude>&longitude=<longitude>'
 

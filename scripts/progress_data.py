@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib
-from scripts.scraping.labels.collect_labels import *
-from scripts.constants import *
+from core.scraping.collect_labels import *
+from common.constants import *
 import numpy as np
 from matplotlib.animation import FuncAnimation
 import sys

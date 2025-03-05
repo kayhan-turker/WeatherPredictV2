@@ -1,5 +1,5 @@
 import json
-from scripts.utils import *
+from common.utils import *
 
 
 class MetadataManager:

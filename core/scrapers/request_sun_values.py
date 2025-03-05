@@ -1,4 +1,4 @@
-from scripts.utils import *
+from common.utils import *
 
 
 # Sunrise sunset url

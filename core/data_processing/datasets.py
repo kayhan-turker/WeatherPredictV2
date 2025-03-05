@@ -1,9 +1,8 @@
 from torch.utils.data import Dataset
 import random
-import torch
 import lmdb
 import cv2
-from scripts.utils import *
+from common.utils import *
 
 
 def get_image_data(image_key, metadata, txn):

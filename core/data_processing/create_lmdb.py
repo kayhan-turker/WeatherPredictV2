@@ -1,7 +1,7 @@
 import lmdb
 from tqdm import tqdm
-from scripts.data_processing.preprocessing import *
-from scripts.metadata.video_source_metadata import *
+from core.data_processing.preprocessing import *
+from core.metadata.video_source_metadata import *
 
 
 def create_lmdb(lmdb_path, image_folder, label_folder, target_size):

@@ -7,7 +7,7 @@ import re
 from datetime import datetime
 from io import BytesIO
 from PIL import Image
-from scripts.constants import *
+from common.constants import *
 
 # ================================
 #  CONSTANTS

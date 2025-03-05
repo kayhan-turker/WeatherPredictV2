@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from scripts.scraping.labels.collect_labels import *
-from scripts.constants import *
+from core.scraping.collect_labels import *
+from common.constants import *
 
 # Get count of records
 num_records = count_text_lines_in_directory(LABEL_SAVE_PATH)

@@ -1,8 +1,8 @@
 import time
-from scripts.metadata.video_source_metadata import *
-from scripts.scraping.labels.request_video_still import *
-from scripts.scraping.labels.collect_labels import *
-from scripts.config import *
+from core.metadata.video_source_metadata import *
+from core.scraping.request_video_still import *
+from core.scraping.collect_labels import *
+from common.config import *
 
 
 # Prepare logs

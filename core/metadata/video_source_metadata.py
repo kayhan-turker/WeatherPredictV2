@@ -1,6 +1,6 @@
-from scripts.metadata.json_metadata_manager import *
-from scripts.scraping.labels.request_location_data import *
-from scripts.localConfig import *
+from core.metadata.json_metadata_manager import *
+from core.scraping.request_location_data import *
+from common.localConfig import *
 
 # Quality: 0 = Blurry, 1 = Over Processed, 2 = Bad Exposure, 3 = Natural
 # Static: 0 = Movement, 1 = Slight Shifts, 2 = Perfectly Static

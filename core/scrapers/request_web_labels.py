@@ -1,4 +1,4 @@
-from scripts.metadata.label_source_metadata import *
+from core.metadata.label_source_metadata import *
 
 
 def request_web_labels(region, latitude, longitude):

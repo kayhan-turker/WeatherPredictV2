@@ -1,7 +1,7 @@
-from scripts.scraping.labels.request_location_data import *
-from scripts.scraping.labels.request_web_labels import *
-from scripts.scraping.labels.request_sun_values import *
-from scripts.localConfig import *
+from core.scrapers.request_location_data import *
+from core.scrapers.request_web_labels import *
+from core.scrapers.request_sun_values import *
+from common.localConfig import *
 
 
 def collect_labels(dt, region, latitude, longitude, elevation=None, dt_format=None):

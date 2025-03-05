@@ -1,5 +1,5 @@
 import yt_dlp, subprocess
-from scripts.utils import *
+from common.utils import *
 
 YOUTUBE_URL = "https://www.youtube.com/watch?v="
 
