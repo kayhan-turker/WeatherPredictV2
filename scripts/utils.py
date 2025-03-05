@@ -1,6 +1,7 @@
 import torchvision.transforms as transforms
 import numpy as np
 import requests
+import torch
 import os
 import re
 from datetime import datetime
@@ -162,11 +163,12 @@ def save_url_image(image_url, file_path, file_name, show_current=False,
     print_log("INFO", f"Image {file_name} saved in {file_path}.")
 
 
-def show_tensor_image(tensor):
-    print(tensor.ndim)
-    if tensor.ndim == 4:  # If a batch, take the first image
-        tensor = tensor[0]
-
+def tensor_to_pil(tensor, denorm=True):
     to_pil = transforms.ToPILImage()
-    image = to_pil(tensor.cpu().detach())
-    image.show()
+    tensor = tensor.cpu().detach()
+    if tensor.ndim == 4:
+        tensor = tensor[0]
+    num_channels = tensor.size()[0]
+    if num_channels > 3:
+        tensor = torch.cat([tensor[i * 3:(i + 1) * 3] for i in range(num_channels // 3)], dim=2)
+    return to_pil(tensor) if not denorm else to_pil((tensor + 1) / 2)

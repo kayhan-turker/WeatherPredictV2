@@ -19,30 +19,30 @@ WEBSITE_URLS = {
 
 WEB_LABEL_SEARCH_STRING = {
     'weather.gc.ca': {
-        'temperature': r'Temperature:\</dt\>\<dd data-v-7e10dc71\>\<span data-v-7e10dc71\>([0-9\.\-]+)°\<',
-        'pressure': r'Pressure:\</dt\>\<dd data-v-7e10dc71\> ([0-9\.]+) \<',
-        'humidity': r'Humidity:\</dt\>\<dd data-v-7e10dc71\>([0-9\.]+)\<',
-        'wind': r'Wind:\</dt\>\<dd data-v-7e10dc71\>\<abbr title="[a-zA-Z\-]+" data-v-7e10dc71\>[A-Z]+\</abbr\> ([0-9\.]+) \<',
-        'visibility': r'Visibility:\</dt\>\<dd data-v-7e10dc71\> ([0-9\.]+) \<',
-        'dewpoint': r'Dew point:\</dt\>\<dd data-v-7e10dc71\>\<span data-v-7e10dc71\>([0-9\.\-]+)°\<',
+        'temperature': r'Temperature:\</dt\>\<dd data-v-7e10dc71\>\<span data-v-7e10dc71\>([0-9e\-\.]+)°\<',
+        'pressure': r'Pressure:\</dt\>\<dd data-v-7e10dc71\> ([0-9e\-\.]+) \<',
+        'humidity': r'Humidity:\</dt\>\<dd data-v-7e10dc71\>([0-9e\-\.]+)\<',
+        'wind': r'Wind:\</dt\>\<dd data-v-7e10dc71\>\<abbr title="[a-zA-Z\-]+" data-v-7e10dc71\>[A-Z]+\</abbr\> ([0-9e\-\.]+) \<',
+        'visibility': r'Visibility:\</dt\>\<dd data-v-7e10dc71\> ([0-9e\-\.]+) \<',
+        'dewpoint': r'Dew point:\</dt\>\<dd data-v-7e10dc71\>\<span data-v-7e10dc71\>([0-9e\-\.]+)°\<',
         'condition': r'Condition:\</dt\>\<dd data-v-7e10dc71\>\<span data-v-7e10dc71\>([A-Za-z ]+)\<',
         'tendency': r'Tendency:\</dt\>\<dd data-v-7e10dc71\>([A-Za-z ]+)\<',
     },
     'forecast.weather.gov': {
-        'temperature': r'\<p class="myforecast-current-sm"\>([0-9\-]+)&deg;C\</p\>',
-        'pressure': r'Barometer\</b\>\</td\> \<td\>([0-9\.]+) *in\ *',
-        'humidity': r'Humidity\</b\>\</td\> \<td\>([0-9\.]+)\%\<',
-        'wind': r'Wind Speed\</b\>\</td\> \<td\>[A-Za-z]+ ([0-9\.\-]+) [A-Za-z]+</td>',
-        'visibility': r'Visibility\</b\>\</td\> \<td\>([0-9\.]+) mi\<',
-        'dewpoint': r'Dewpoint\</b\>\</td\> \<td\>[0-9\.\-]+&deg;F \(([0-9\-\.]+)&deg;C\)\<',
+        'temperature': r'\<p class="myforecast-current-sm"\>([0-9e\-\.]+)&deg;C\</p\>',
+        'pressure': r'Barometer\</b\>\</td\> \<td\>([0-9e\-\.]+) *in\ *',
+        'humidity': r'Humidity\</b\>\</td\> \<td\>([0-9e\-\.]+)\%\<',
+        'wind': r'Wind Speed\</b\>\</td\> \<td\>[A-Za-z]+ ([0-9e\-\.]+) [A-Za-z]+</td>',
+        'visibility': r'Visibility\</b\>\</td\> \<td\>([0-9e\-\.]+) mi\<',
+        'dewpoint': r'Dewpoint\</b\>\</td\> \<td\>[0-9e\-\.]+&deg;F \(([0-9\-\.]+)&deg;C\)\<',
     },
     'timeanddate.com': {
-        'temperature': r'\<div class=h2\> *([0-9\.\-]+) *&nbsp; *°C *\</div\>',
-        'pressure': r'Pressure: *\</th\>\<td\> *([0-9\.]+) *kPa *\</td\>',
-        'humidity': r'Humidity: *\</th\>\<td\> *([0-9\.]+) *% *\</td\>',
-        'wind': r'\<br\>Wind: *([0-9\.]+) *(?:km/h)? *',
-        'visibility':  r'Visibility: *\</th\>\<td\> *([0-9\.]+) *(?:km/h)? *</td>',
-        'dewpoint': r'Dew Point: *\</th\>\<td\> *([0-9\.\-]+) *&nbsp; *°C *</td>',
+        'temperature': r'\<div class=h2\> *([0-9e\-\.]+) *&nbsp; *°C *\</div\>',
+        'pressure': r'Pressure: *\</th\>\<td\> *([0-9e\-\.]+) *kPa *\</td\>',
+        'humidity': r'Humidity: *\</th\>\<td\> *([0-9e\-\.]+) *% *\</td\>',
+        'wind': r'\<br\>Wind: *([0-9e\-\.]+) *(?:km/h)? *',
+        'visibility':  r'Visibility: *\</th\>\<td\> *([0-9e\-\.]+) *(?:km/h)? *</td>',
+        'dewpoint': r'Dew Point: *\</th\>\<td\> *([0-9e\-\.]+) *&nbsp; *°C *</td>',
         'condition': r'°C\</div\>\<p\>([A-Za-z\,\.:]+)\</p\>'
     }
 }

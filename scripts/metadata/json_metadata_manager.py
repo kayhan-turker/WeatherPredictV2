@@ -52,7 +52,7 @@ class MetadataManager:
                     else:
                         # Otherwise is there a type mismatch?
                         if default_type is float or default_type is int:
-                            value = re.sub(r'[^0-9.]]', '', value) if value_type is str else value
+                            value = re.sub(r'[^0-9.-]', '', value) if value_type is str else value
                             value = int(round(float(value))) if default_type is int else float(value)
                         elif default_type is str:
                             value = str(value)

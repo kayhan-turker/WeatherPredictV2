@@ -21,7 +21,7 @@ num_sources = len(source_list)
 
 x_field = 'temperature'
 y_field = 'pressure'
-r_field = 'sun_altitude'
+r_field = 'date'
 g_field = 'sun_altitude'
 b_field = 'sun_altitude'
 
@@ -29,7 +29,7 @@ r_mod = lambda r, g, b: min(max(1.50 * (r - 0.80) + 0.75, 0), 1)
 g_mod = lambda r, g, b: min(max(2.20 * (g - 0.7) + 0.75, 0), 0.85)
 b_mod = lambda r, g, b: min(max(0.2 * (b - 0.30) + 0.8, 0), 1)
 point_size = 1
-fade_time = 0.0002
+fade_time = 0.02
 
 # Path containing the labels
 x_index = LABEL_FILE_FIELDS.index(x_field)
@@ -86,14 +86,15 @@ source_values = source_values[:counted_records]
 x_values = x_values[:counted_records]
 y_values = y_values[:counted_records]
 t_values = t_values[:counted_records]
+t_values = (t_values - round(t_values.min())) * 100
 colors = colors[:counted_records]
 
 x_max, x_min = x_values.max(), x_values.min()
 y_max, y_min = y_values.max(), y_values.min()
 t_max, t_min = t_values.max(), t_values.min()
 r_max, r_min = colors[:, 0].max(), colors[:, 0].min()
-g_max, g_min = colors[:, 0].max(), colors[:, 0].min()
-b_max, b_min = colors[:, 0].max(), colors[:, 0].min()
+g_max, g_min = colors[:, 1].max(), colors[:, 1].min()
+b_max, b_min = colors[:, 2].max(), colors[:, 2].min()
 
 # Adjust the color values
 for index in range(len(colors)):
@@ -117,11 +118,12 @@ sc = ax.scatter([], [], c=[], s=point_size, alpha=0.0)
 
 # Point in time setup
 set_t = (t_max + t_min) / 2
-t_step = 0.0001
+t_step = (t_max - t_min) / 100
 xt = np.zeros(num_sources)
 yt = np.zeros(num_sources)
 ct = np.zeros((num_sources, 3))
 vt = np.zeros(num_sources)
+print(set_t, t_max, t_min)
 
 
 def update_points_for_t():

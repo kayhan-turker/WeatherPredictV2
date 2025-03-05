@@ -27,21 +27,5 @@ def training_loop(num_epoch, batch_size):
     torch.backends.cudnn.benchmark = True
     torch.autograd.set_detect_anomaly(False)
 
-    print_log("INFO", "Retrieving batch...")
-
-    image, label = next(iter(train_loader_main))
-    print(label[:, -1])
-    show_tensor_image(image)
-    input("Press Enter to continue...")
-
-    image, label, same_source = next(iter(train_loader_pair))
-    print(label[:, -1])
-    print(same_source)
-    print(image.size())
-   show_tensor_image(image[:, 3])
-    input("Press Enter to continue...")
-    show_tensor_image(image[:, 3:])
-    input("Press Enter to continue...")
-
 
 training_loop(1, 32)

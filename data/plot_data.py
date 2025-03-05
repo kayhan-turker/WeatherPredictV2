@@ -7,15 +7,15 @@ num_records = count_text_lines_in_directory(LABEL_SAVE_PATH)
 
 x_field = 'temperature'
 y_field = 'pressure'
-r_field = 'sun_altitude'
+r_field = 'date'
 g_field = 'sun_altitude'
 b_field = 'sun_altitude'
 
 filter_condition = lambda x: True or x[0] in {'K5ZEJWCTSzQ'}
 
-r_mod = lambda r, g, b: min(max(1.50 * (r - 0.80) + 0.75, 0), 1)
-g_mod = lambda r, g, b: min(max(2.20 * (g - 0.7) + 0.75, 0), 0.85)
-b_mod = lambda r, g, b: min(max(0.2 * (b - 0.30) + 0.5, 0), 1)
+r_mod = lambda r, g, b: r
+g_mod = lambda r, g, b: g
+b_mod = lambda r, g, b: 0
 
 point_size = 0.05
 
@@ -75,8 +75,8 @@ colors = colors[:counted_records]
 
 t_max, t_min = t_values.max(), t_values.min()
 r_max, r_min = colors[:, 0].max(), colors[:, 0].min()
-g_max, g_min = colors[:, 0].max(), colors[:, 0].min()
-b_max, b_min = colors[:, 0].max(), colors[:, 0].min()
+g_max, g_min = colors[:, 1].max(), colors[:, 1].min()
+b_max, b_min = colors[:, 2].max(), colors[:, 2].min()
 
 # Adjust the color values
 for index in range(len(colors)):
