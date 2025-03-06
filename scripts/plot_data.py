@@ -3,21 +3,29 @@ from core.scrapers.collect_labels import *
 from common.constants import *
 
 # Get count of records
-num_records = count_text_lines_in_directory(LABEL_SAVE_PATH)
+num_records = count_text_lines_in_directory(LABEL_SAVE_PATH) + 1
 
-x_field = 'longitude'
-y_field = 'latitude'
-r_field = 'temperature'
-g_field = 'pressure'
-b_field = 'humidity'
+x_field = 'temperature'
+y_field = 'pressure'
+r_field = 'latitude'
+g_field = 'longitude'
+b_field = 'longitude'
 
 filter_condition = lambda x: True or x[0] in {'K5ZEJWCTSzQ'}
 
-r_mod = lambda r, g, b: r
-g_mod = lambda r, g, b: g
-b_mod = lambda r, g, b: b
+r_mod = lambda r, g, b: (abs(2 * r - 1) + (g)) / 2
+g_mod = lambda r, g, b: (abs(2 * r - 1) + (1 - r)) / 2
+b_mod = lambda r, g, b: (abs(2 * r - 1) + (r)) / 2
 
-point_size = 2
+point_size = 0.1
+
+# min(1, max(0, (4 * g - 2) * r))
+# min(1, max(0, (2 - abs(4 * g - 2)) * r))
+# min(1, max(0, (2 - 4 * g) * r))
+
+# min(1, max(0, (2 - 8 * abs(g - 0.5)) * r))
+# min(1, max(0, (2 - abs(8 * abs(g - 0.5) - 2)) * r))
+# min(1, max(0, (8 * abs(g - 0.5) - 2) * r))
 
 # Path containing the labels
 x_index = LABEL_FILE_FIELDS.index(x_field)
@@ -127,14 +135,14 @@ def on_key(event):
     np.putmask(visible, ~((t_values >= t1) & (t_values <= t2)), 0.0)
 
     # Update scatter plot without re-drawing everything
-    sc.set_alpha(0.5 * visible + 0.01)
+    sc.set_alpha(visible)
     plt.draw()
 
 
 # Create the scatter plot
 fig, ax = plt.subplots(facecolor='#222222')
 ax.set_facecolor('#000000')
-sc = ax.scatter(x_values, y_values, c=colors, s=point_size, alpha=(0.5 * visible + 0.01).astype(float))
+sc = ax.scatter(x_values, y_values, c=colors, s=point_size, alpha=(visible).astype(float))
 fig.canvas.mpl_connect('key_press_event', on_key)
 
 

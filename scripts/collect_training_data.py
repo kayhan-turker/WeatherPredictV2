@@ -1,3 +1,4 @@
+import os.path
 import time
 from core.metadata.video_source_metadata import *
 from core.scrapers.request_video_still import *
@@ -20,8 +21,6 @@ data_refresh_interval = 60
 video_metadata, _ = init_video_metadata_manager(validate_altitudes=VALIDATE_ALTITUDES_BEFORE_DATA_COLLECTION)
 
 # Create directories
-for source_id in video_metadata.keys():
-    os.makedirs(STREAM_IMAGE_SAVE_PATH + source_id + '/', exist_ok=True)
 
 # Refresh Loop
 while True:
@@ -48,8 +47,11 @@ while True:
 
         # Get file name and path
         dt_now = datetime.now()
+
         file_path = f"{STREAM_IMAGE_SAVE_PATH}{source_id}/"
         file_name = f"{datetime.strftime(dt_now, '%Y-%m-%d-%H-%M-%S')}"
+        if not os.path.exists(file_path):
+            os.makedirs(file_path, exist_ok=True)
 
         result = save_video_screenshot(stream_urls[source_id], file_path, file_name, VIDEO_WIDTH, VIDEO_HEIGHT,
                                        log_field_dict["crop_left"], log_field_dict["crop_top"],
