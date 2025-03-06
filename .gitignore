@@ -1,1 +1,4 @@
 /common/localConfig.py
+/data/labels/
+/data/images/
+/data/to_monitor/
