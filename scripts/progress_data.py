@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib
-from core.scraping.collect_labels import *
+from core.scrapers.collect_labels import *
 from common.constants import *
 import numpy as np
 from matplotlib.animation import FuncAnimation
@@ -19,17 +19,17 @@ num_records = count_text_lines_in_directory(LABEL_SAVE_PATH) + 1
 source_list = sorted(get_text_file_list_in_directory(LABEL_SAVE_PATH))
 num_sources = len(source_list)
 
-x_field = 'temperature'
-y_field = 'pressure'
-r_field = 'date'
-g_field = 'sun_altitude'
-b_field = 'sun_altitude'
+x_field = 'longitude'
+y_field = 'latitude'
+r_field = 'temperature'
+g_field = 'pressure'
+b_field = 'humidity'
 
-r_mod = lambda r, g, b: min(max(1.50 * (r - 0.80) + 0.75, 0), 1)
-g_mod = lambda r, g, b: min(max(2.20 * (g - 0.7) + 0.75, 0), 0.85)
-b_mod = lambda r, g, b: min(max(0.2 * (b - 0.30) + 0.8, 0), 1)
+r_mod = lambda r, g, b: r  # min(max(1.50 * (r - 0.80) + 0.75, 0), 1)
+g_mod = lambda r, g, b: g  # min(max(2.20 * (g - 0.7) + 0.75, 0), 0.85)
+b_mod = lambda r, g, b: b  # min(max(0.2 * (b - 0.30) + 0.8, 0), 1)
 point_size = 1
-fade_time = 0.02
+fade_time = 0.2
 
 # Path containing the labels
 x_index = LABEL_FILE_FIELDS.index(x_field)
@@ -128,8 +128,11 @@ vt = np.zeros(num_sources)
 def update_points_for_t():
     global set_t, xt, yt, ct, vt
 
-    for i, s in enumerate(range(num_sources)):
-        mask = source_values == s  # Select only rows matching the category
+    for i in range(num_sources):
+        mask = np.array(source_values == i)  # Select only rows matching the category
+        if not mask.any():
+            continue
+
         t_s, x_s, y_s, c_s = t_values[mask], x_values[mask], y_values[mask], colors[mask]
 
         # Sort by time for safe interpolation

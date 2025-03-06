@@ -1,7 +1,7 @@
 import time
 from core.metadata.video_source_metadata import *
-from core.scraping.request_video_still import *
-from core.scraping.collect_labels import *
+from core.scrapers.request_video_still import *
+from core.scrapers.collect_labels import *
 from common.config import *
 
 

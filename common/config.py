@@ -3,7 +3,7 @@
 #  DATA COLLECTION
 # ======================
 
-VALIDATE_ALTITUDES_BEFORE_DATA_COLLECTION = True
+VALIDATE_ALTITUDES_BEFORE_DATA_COLLECTION = False
 
 # ======================
 #  WRITE TO LMDB

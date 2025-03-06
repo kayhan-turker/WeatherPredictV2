@@ -1,5 +1,5 @@
 from core.metadata.json_metadata_manager import *
-from core.scraping.request_location_data import *
+from core.scrapers.request_location_data import *
 from common.localConfig import *
 
 # Quality: 0 = Blurry, 1 = Over Processed, 2 = Bad Exposure, 3 = Natural
@@ -12,7 +12,7 @@ VIDEO_METADATA_DEFAULTS = {"region": "NA", "latitude": 0.0, "longitude": 0.0,
 
 
 def init_video_metadata_manager(validate_altitudes=False):
-    video_metadata_manager = MetadataManager(SOURCE_METADATA_FILE, VIDEO_METADATA_FIELDS, 0,
+    video_metadata_manager = MetadataManager(SOURCE_STREAM_METADATA_FILE, VIDEO_METADATA_FIELDS, 0,
                                              VIDEO_METADATA_DEFAULTS, '<source_id>')
     video_metadata = video_metadata_manager.read_request_log()
 

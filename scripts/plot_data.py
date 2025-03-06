@@ -1,23 +1,23 @@
 import matplotlib.pyplot as plt
-from core.scraping.collect_labels import *
+from core.scrapers.collect_labels import *
 from common.constants import *
 
 # Get count of records
 num_records = count_text_lines_in_directory(LABEL_SAVE_PATH)
 
-x_field = 'temperature'
-y_field = 'pressure'
-r_field = 'date'
-g_field = 'sun_altitude'
-b_field = 'sun_altitude'
+x_field = 'longitude'
+y_field = 'latitude'
+r_field = 'temperature'
+g_field = 'pressure'
+b_field = 'humidity'
 
 filter_condition = lambda x: True or x[0] in {'K5ZEJWCTSzQ'}
 
 r_mod = lambda r, g, b: r
 g_mod = lambda r, g, b: g
-b_mod = lambda r, g, b: 0
+b_mod = lambda r, g, b: b
 
-point_size = 0.05
+point_size = 2
 
 # Path containing the labels
 x_index = LABEL_FILE_FIELDS.index(x_field)

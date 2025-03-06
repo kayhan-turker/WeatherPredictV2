@@ -1,16 +1,11 @@
 from core.data_processing.create_lmdb import *
-from core.data_processing.clear_incomplete_data import *
+from scripts.clear_incomplete_data import *
 from common.constants import *
 from common.config import *
 
 
 if CLEAR_INCOMPLETE_DATA_BEFORE_LMDB_WRITE:
-    print_log("INFO", "Checking label completion...")
-    check_label_complete(True)
-    print_log("INFO", "Checking if label images exist...")
-    check_label_image_exists(True)
-    print_log("INFO", "Checking if image labels exist...")
-    check_image_label_exists(True)
+    full_data_cleansing()
 
 print_log("INFO", "Pre-processing images and creating lmdb...")
-create_lmdb(LMDB_PATH, STREAM_IMAGE_SAVE_PATH, LABEL_SAVE_PATH, IMAGE_SIZE)
+create_lmdb(LMDB_PATH, LMDB_SOURCE_IMAGE_PATH, LABEL_SAVE_PATH, IMAGE_SIZE)
