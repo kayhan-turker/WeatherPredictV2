@@ -8,4 +8,4 @@ if CLEAR_INCOMPLETE_DATA_BEFORE_LMDB_WRITE:
     full_data_cleansing()
 
 print_log("INFO", "Pre-processing images and creating lmdb...")
-create_lmdb(LMDB_PATH, LMDB_SOURCE_IMAGE_PATH, LABEL_SAVE_PATH, IMAGE_SIZE)
+create_lmdb(LMDB_PATH, FILTERED_IMAGES_PATH, LABEL_SAVE_PATH, IMAGE_SIZE)

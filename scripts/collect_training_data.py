@@ -48,7 +48,7 @@ while True:
         # Get file name and path
         dt_now = datetime.now()
 
-        file_path = f"{STREAM_IMAGE_SAVE_PATH}{source_id}/"
+        file_path = f"{UNFILTERED_IMAGES_PATH}{source_id}/"
         file_name = f"{datetime.strftime(dt_now, '%Y-%m-%d-%H-%M-%S')}"
         if not os.path.exists(file_path):
             os.makedirs(file_path, exist_ok=True)

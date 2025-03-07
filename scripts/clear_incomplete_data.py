@@ -20,8 +20,8 @@ def check_label_image_exists(auto_remove=False):
                     values = line.split(';')
                     image_file = f"{values[1]}-{values[2]}-{values[3]}-{values[4]}-{values[5]}-{values[6]}.jpg"
 
-                    unfiltered_image_file_path = os.path.join(f"{STREAM_IMAGE_SAVE_PATH}{source_id}/", image_file)
-                    filtered_image_file_path = os.path.join(f"{LMDB_SOURCE_IMAGE_PATH}{source_id}/", image_file)
+                    unfiltered_image_file_path = os.path.join(f"{UNFILTERED_IMAGES_PATH}{source_id}/", image_file)
+                    filtered_image_file_path = os.path.join(f"{FILTERED_IMAGES_PATH}{source_id}/", image_file)
                     image_missing = (not os.path.exists(unfiltered_image_file_path) and
                                      not os.path.exists(filtered_image_file_path))
 
@@ -63,11 +63,11 @@ def check_label_complete(auto_remove=False):
                             print_log("INFO", f"Removing label...")
 
                             # If there's a corresponding image, delete it
-                            image_file_path = os.path.join(f"{STREAM_IMAGE_SAVE_PATH}{label_file}/", f"{datetime_str}.jpg")
+                            image_file_path = os.path.join(f"{UNFILTERED_IMAGES_PATH}{label_file}/", f"{datetime_str}.jpg")
                             if os.path.exists(image_file_path):
                                 print_log("INFO", f"Removing unfiltered image...")
                                 os.remove(image_file_path)
-                            image_file_path = os.path.join(f"{LMDB_SOURCE_IMAGE_PATH}{label_file}/", f"{datetime_str}.jpg")
+                            image_file_path = os.path.join(f"{FILTERED_IMAGES_PATH}{label_file}/", f"{datetime_str}.jpg")
                             if os.path.exists(image_file_path):
                                 print_log("INFO", f"Removing filtered image...")
                                 os.remove(image_file_path)
@@ -124,5 +124,5 @@ def full_data_cleansing():
     print_log("INFO", "Checking if label images exist...")
     check_label_image_exists(True)
     print_log("INFO", "Checking if image labels exist...")
-    check_image_label_exists(STREAM_IMAGE_SAVE_PATH, True)
-    check_image_label_exists(LMDB_SOURCE_IMAGE_PATH, True)
+    check_image_label_exists(UNFILTERED_IMAGES_PATH, True)
+    check_image_label_exists(FILTERED_IMAGES_PATH, True)
