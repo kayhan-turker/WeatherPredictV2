@@ -6,7 +6,7 @@ from common.localConfig import *
 # Static: 0 = Movement, 1 = Slight Shifts, 2 = Perfectly Static
 VIDEO_METADATA_FIELDS = ["region", "latitude", "longitude", "elevation",
                                 "crop_left", "crop_top", "crop_right", "crop_bottom",
-                                "quality", "stillness"]
+                                "quality", "stillness", "only_day"]
 VIDEO_METADATA_DEFAULTS = {"region": "NA", "latitude": 0.0, "longitude": 0.0,
                                   "quality": 0, "stillness": 0}
 

@@ -1,4 +1,4 @@
-from scripts.clear_incomplete_data import *
+from core.data_processing.data_cleansing import *
 from core.data_processing.label_statistics import *
 
 full_data_cleansing()

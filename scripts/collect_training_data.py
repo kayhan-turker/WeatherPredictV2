@@ -1,4 +1,3 @@
-import os.path
 import time
 from core.metadata.video_source_metadata import *
 from core.scrapers.request_video_still import *
@@ -18,7 +17,7 @@ stream_refresh_interval = 7200
 last_data_refresh = 0
 data_refresh_interval = 60
 
-video_metadata, _ = init_video_metadata_manager(validate_altitudes=VALIDATE_ALTITUDES_BEFORE_DATA_COLLECTION)
+source_metadata, _ = init_video_metadata_manager(validate_altitudes=VALIDATE_ALTITUDES_BEFORE_DATA_COLLECTION)
 
 # Create directories
 
@@ -33,7 +32,7 @@ while True:
 
     # Check if stream url refresh is needed
     refresh_stream_urls = time.time() - last_url_refresh > stream_refresh_interval
-    for source_id, log_field_dict in video_metadata.items():
+    for source_id, source_id_metadata in source_metadata.items():
 
         # Get stream urls if needed
         if refresh_stream_urls or source_id not in stream_urls:
@@ -48,21 +47,32 @@ while True:
         # Get file name and path
         dt_now = datetime.now()
 
+        # Get labels
+        label = collect_labels(dt_now, source_id_metadata['region'], source_id_metadata['latitude'],
+                               source_id_metadata['longitude'], source_id_metadata['elevation'])
+
+        # Skip if needed (any None types, day only source at night)
+        if (any(x is None or x == 'None' for x in label) or
+                (source_id_metadata['only_day'] and label[LABEL_INDEX_SUN_ALTITUDE] < 0)):
+            print_log("WARNING", f"Skipped data entry for {source_id}.")
+            continue
+
+        # Save screenshot
         file_path = f"{UNFILTERED_IMAGES_PATH}{source_id}/"
         file_name = f"{datetime.strftime(dt_now, '%Y-%m-%d-%H-%M-%S')}"
         if not os.path.exists(file_path):
             os.makedirs(file_path, exist_ok=True)
 
         result = save_video_screenshot(stream_urls[source_id], file_path, file_name, VIDEO_WIDTH, VIDEO_HEIGHT,
-                                       log_field_dict["crop_left"], log_field_dict["crop_top"],
-                                       log_field_dict["crop_right"], log_field_dict["crop_bottom"])
+                                       source_id_metadata["crop_left"], source_id_metadata["crop_top"],
+                                       source_id_metadata["crop_right"], source_id_metadata["crop_bottom"])
+
+        # If screenshot failed, do not save label, attempt refresh stream
         if result == 0:
             stream_urls[source_id] = get_stream_url(source_id)
             continue
 
         # Save labels
-        label = collect_labels(dt_now, log_field_dict['region'], log_field_dict['latitude'],
-                                log_field_dict['longitude'], log_field_dict['elevation'])
         write_label_to_file(source_id, dt_now, label)
 
     # Update refresh times if needed

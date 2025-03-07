@@ -4,12 +4,16 @@
 # ====================
 
 WEB_LABELS_NAMES = ['temperature', 'pressure', 'humidity', 'wind', 'dewpoint']
-LABEL_NAMES = ['date', 'time', 'latitude', 'longitude', 'elevation'] + WEB_LABELS_NAMES + ['sun_direction', 'sun_altitude']
+LABEL_NAMES = (['date', 'time', 'latitude', 'longitude', 'elevation'] +
+               WEB_LABELS_NAMES + ['sun_direction', 'sun_altitude'])
 LABEL_FILE_FIELDS = ['video_id', 'year', 'month', 'day', 'hour', 'minute', 'second'] + LABEL_NAMES
 
 NUM_LABELS = len(LABEL_NAMES)
 NUM_LABEL_FILE_FIELDS = len(LABEL_FILE_FIELDS)
 NUM_LABEL_FILE_NON_LABELS = NUM_LABEL_FILE_FIELDS - NUM_LABELS
+
+LABEL_FILE_INDEX_SOURCE_ID = LABEL_NAMES.index('sun_altitude')
+LABEL_INDEX_SUN_ALTITUDE = LABEL_NAMES.index('sun_altitude')
 
 # ======================
 # LMDB CONSTANTS
