@@ -57,7 +57,7 @@ def get_url_page_text(url):
     response = requests.get(url)
     if response.status_code != 200:
         print_log("ERROR", f"Text extract failed! Url {url} not valid!")
-        return None
+        return ""
 
     return response.text
 
@@ -66,7 +66,7 @@ def get_url_page_json(url, headers, params):
     response = requests.get(url, headers=headers, params=params)
     if response.status_code != 200:
         print_log("ERROR", f"Json extract failed! Url {url} not valid!")
-        return None
+        return ""
 
     return response.json()
 
