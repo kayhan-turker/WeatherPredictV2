@@ -15,6 +15,7 @@ CLEAR_INCOMPLETE_DATA_BEFORE_LMDB_WRITE = True
 #  MODEL ARCHITECTURE
 # ======================
 
+IMAGE_SIZE = 512
 
 # ======================
 #  MODEL TRAINING

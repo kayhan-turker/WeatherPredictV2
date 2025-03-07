@@ -1,5 +1,7 @@
 /common/localConfig.py
 /data/labels/*
-/data/images/*
 /data/labels/
+/data/images/*
 /data/images/
+/data/old_data/*
+/data/old_data/

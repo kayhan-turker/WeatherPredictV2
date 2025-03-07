@@ -1,3 +1,5 @@
+import shutil
+
 from common.localConfig import *
 from common.utils import *
 
@@ -82,13 +84,29 @@ def check_label_complete(auto_remove=False):
 
 def check_image_label_exists(image_folder_path, auto_remove=False):
     # Go through image files to make sure all labels are present
+
+    auto_remove_sources = False
     for source_id in os.listdir(image_folder_path):
         source_folder_path = f"{image_folder_path}{source_id}/"
 
         label_file = f"{source_id}.txt"
         label_file_path = os.path.join(LABEL_SAVE_PATH, label_file)
-        with open(label_file_path, 'r') as file:
-            label_file_images = set('-'.join(line.split(';')[1:7]) + '.jpg' for line in file.readlines())
+
+        if os.path.exists(label_file_path):
+            with open(label_file_path, 'r') as file:
+                label_file_images = set('-'.join(line.split(';')[1:7]) + '.jpg' for line in file.readlines())
+        elif os.path.exists(source_folder_path):
+            print_log("ERROR", f"Missing label file for source {source_id}.")
+            response = input("Do you want to remove all the contents of the source? (Y/N) Press A to auto-confirm Y: ").strip().lower() \
+                if not auto_remove_sources else 'y'
+            if response == 'y' or response == 'a':
+                print(f"Removing source {source_id} files.")
+                shutil.rmtree(source_folder_path)
+                if response == 'a':
+                    auto_remove_sources = True
+            else:
+                print("Did not remove source.")
+            continue
 
         for image_file in os.listdir(source_folder_path):
             if image_file not in label_file_images:
