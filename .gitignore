@@ -1,7 +1,4 @@
-/common/localConfig.py
-/data/labels/*
-/data/images/*
-/data/images/
-/data/old_data/*
-/data/old_data/
-/data/labels/
+venv/
+.idea/
+data/
+common/localConfig.py
